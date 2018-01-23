@@ -2,4 +2,9 @@
     <string name="app_name">My Devices</string>
     <string name="model">Modelo</string>
     <string name="get">Usar</string>
+    <string name="email">Email</string>
+    <string name="Password">Senha</string>
+    <string name="login">Entrar</string>
+
+    <string name="auth_failed">Usuario invalido</string>
 </resources>
