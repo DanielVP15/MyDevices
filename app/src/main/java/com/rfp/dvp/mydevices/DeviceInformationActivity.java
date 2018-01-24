@@ -40,7 +40,7 @@ public class DeviceInformationActivity extends AppCompatActivity {
         device = getIntent().getExtras().getParcelable(DeviceExtras.TAG_DEVICE);
 
         modelInformation.setText(device.getModel());
-        userInformation.setText(device.getUser());
+        userInformation.setText(device.getStatus()+"");
     }
 
 

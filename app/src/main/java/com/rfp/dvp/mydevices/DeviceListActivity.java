@@ -1,6 +1,5 @@
 package com.rfp.dvp.mydevices;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -48,10 +47,5 @@ public class DeviceListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layout);
     }
 
-    public void callDeviceInformationActivity(){
 
-        Intent it = new Intent(this, DeviceInformationActivity.class);
-        startActivity(it);
-
-    }
 }

@@ -9,17 +9,17 @@ import android.os.Parcelable;
 
 public class Device implements Parcelable {
 
-    final String model;
-    final String id;
-    //final boolean status;
-    final String user;
+    private String model;
+    private String id;
+    private boolean status;
+    private String user;
 
     public Device(String model, String id,
                  boolean status, String user) {
 
         this.model = model;
         this.id = id;
-    //    this.status = status;
+        this.status = status;
         this.user = user;
     }
 
@@ -31,7 +31,8 @@ public class Device implements Parcelable {
         return id;
     }
 
-    //public Boolean getStatus() { return status;   }
+    public boolean getStatus() { return status;   }
+
 
     public String getUser() {
         return user;
@@ -52,8 +53,9 @@ public class Device implements Parcelable {
     protected Device(Parcel in) {
         model = in.readString();
         id = in.readString();
-        //status = in.readString();
         user = in.readString();
+        status  = (in.readInt() == 0) ? false : true;
+
     }
 
     @Override
@@ -65,7 +67,7 @@ public class Device implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(model);
         parcel.writeString(id);
-        //parcel.writeBooleanArray(status);
         parcel.writeString(user);
+        parcel.writeInt(status ? 1 : 0);
     }
 }
