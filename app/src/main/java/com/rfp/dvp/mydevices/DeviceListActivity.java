@@ -1,5 +1,6 @@
 package com.rfp.dvp.mydevices;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import java.util.List;
 public class DeviceListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    RecyclerView.LayoutManager layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,15 @@ public class DeviceListActivity extends AppCompatActivity {
         device.add(xa);
         recyclerView.setAdapter(new DeviceAdapter(device,this));
 
-        RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setHasFixedSize(true);
+        layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layout);
+    }
+
+    public void callDeviceInformationActivity(){
+
+        Intent it = new Intent(this, DeviceInformationActivity.class);
+        startActivity(it);
+
     }
 }
