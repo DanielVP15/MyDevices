@@ -19,6 +19,10 @@ public class DeviceListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_list);
 
+        if(getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
+
         init();
 
     }
