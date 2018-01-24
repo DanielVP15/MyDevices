@@ -13,6 +13,7 @@ public class DeviceInformationActivity extends AppCompatActivity {
 
     private TextView modelInformation;
     private TextView userInformation;
+    private TextView idInformation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class DeviceInformationActivity extends AppCompatActivity {
 
         modelInformation = (TextView) findViewById(R.id.model_information_text);
         userInformation = (TextView) findViewById(R.id.user_information_text);
+        idInformation = (TextView) findViewById(R.id.id_information_text);
 
         getDeviceInformation();
 
@@ -40,6 +42,7 @@ public class DeviceInformationActivity extends AppCompatActivity {
         device = getIntent().getExtras().getParcelable(DeviceExtras.TAG_DEVICE);
 
         modelInformation.setText(device.getModel());
+        idInformation.setText(device.getId());
         userInformation.setText(device.getStatus()+"");
     }
 
