@@ -51,15 +51,21 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
         holder.model.setText(device.getModel());
 
-        if(device.getModel().equals(TAG_DEVICE_A5)){
-            holder.image.setImageResource(R.drawable.a5);
-        }else if(device.getModel().equals(TAG_DEVICE_K4)){
-            holder.image.setImageResource(R.drawable.k4);
-        }else if(device.getModel().equals(TAG_DEVICE_G1)){
-            holder.image.setImageResource(R.drawable.g1);
-        }else if(device.getModel().equals(TAG_DEVICE_XA)){
-            holder.image.setImageResource(R.drawable.xa);
+        switch (device.getModel()){
+            case DeviceExtras.TAG_A5:
+                holder.image.setImageResource(R.drawable.a5);
+                break;
+            case DeviceExtras.TAG_K4:
+                holder.image.setImageResource(R.drawable.k4);
+                break;
+            case DeviceExtras.TAG_G1:
+                holder.image.setImageResource(R.drawable.g1);
+                break;
+            case DeviceExtras.TAG_XA:
+                holder.image.setImageResource(R.drawable.xa);
+                break;
         }
+
 
         holder.setItemClickListener(new ItemClickListener() {
             @Override
