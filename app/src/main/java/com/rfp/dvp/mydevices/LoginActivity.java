@@ -75,7 +75,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mPassword = (EditText) findViewById(R.id.login_password_edit_text);
         mLogin = (Button) findViewById(R.id.login_button);
         mLogin.setOnClickListener(this);
-        callListDevicesActivity();
     }
 
     private void signIn() {

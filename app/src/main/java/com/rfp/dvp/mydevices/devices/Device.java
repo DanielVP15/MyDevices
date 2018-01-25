@@ -33,9 +33,24 @@ public class Device implements Parcelable {
 
     public boolean getStatus() { return status;   }
 
-
     public String getUser() {
         return user;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }
+
+    public void setStatus(boolean status){
+        this.status = status;
+    }
+
+    public void setUser(String user){
+        this.user = user;
     }
 
     public static final Creator<Device> CREATOR = new Creator<Device>() {
