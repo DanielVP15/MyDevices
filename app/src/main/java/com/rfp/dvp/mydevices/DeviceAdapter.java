@@ -2,6 +2,7 @@ package com.rfp.dvp.mydevices;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,9 @@ import com.rfp.dvp.mydevices.utils.ItemClickListener;
 
 import java.util.List;
 
+import static android.R.color.holo_green_dark;
+import static android.R.color.white;
+
 /**
  * Created by rfpereira on 23/01/2018.
  */
@@ -22,11 +26,6 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
     private List<Device> devices;
     private Context context;
-
-    private static final String TAG_DEVICE_A5 = "Galaxy A5";
-    private static final String TAG_DEVICE_K4 = "LG K4";
-    private static final String TAG_DEVICE_G1 = "Motorola G1";
-    private static final String TAG_DEVICE_XA = "Sony Xperia XA";
 
     public DeviceAdapter(List<Device> devices, Context context) {
         this.devices = devices;
@@ -64,6 +63,28 @@ public class DeviceAdapter extends RecyclerView.Adapter {
             case DeviceExtras.TAG_XA:
                 holder.image.setImageResource(R.drawable.xa);
                 break;
+        }
+
+        if (device.getStatus()){
+            holder.status.setText("Disponível");
+            holder.status.setTextColor(Color.GREEN);
+
+            holder.statusUser.setText("Ultimo uso: "+device.getUser());
+            holder.statusUser.setTextColor(Color.BLACK);
+
+            holder.buttonDevice.setVisibility(View.VISIBLE);
+            holder.buttonOffDevice.setVisibility(View.GONE);
+
+        }else{
+            holder.status.setText("Indisponível");
+            holder.status.setTextColor(Color.RED);
+
+            holder.statusUser.setText("Em uso: "+device.getUser());
+            holder.statusUser.setTextColor(Color.BLACK);
+
+            holder.buttonDevice.setVisibility(View.GONE);
+            holder.buttonOffDevice.setVisibility(View.VISIBLE);
+
         }
 
 

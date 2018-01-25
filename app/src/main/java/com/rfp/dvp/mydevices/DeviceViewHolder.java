@@ -2,6 +2,7 @@ package com.rfp.dvp.mydevices;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +15,11 @@ import com.rfp.dvp.mydevices.utils.ItemClickListener;
 public class DeviceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
 
     final TextView model;
+    final TextView status;
+    final TextView statusUser;
     final ImageView image;
+    final Button buttonDevice;
+    final Button buttonOffDevice;
     //final TextView id;
     //final TextView active;
     //final TextView user;
@@ -26,7 +31,12 @@ public class DeviceViewHolder extends RecyclerView.ViewHolder implements View.On
 
         //nome = (TextView) itemView.findViewById(R.id.item_livro_nome);
         model = (TextView) itemView.findViewById(R.id.txt_model);
+        status = (TextView) itemView.findViewById(R.id.txt_status);
+        statusUser = (TextView) itemView.findViewById(R.id.txt_status_user);
         image = (ImageView) itemView.findViewById(R.id.image);
+        buttonDevice = (Button) itemView.findViewById(R.id.button_device);
+        buttonOffDevice = (Button) itemView.findViewById(R.id.button_off_device);
+
 
         itemView.setOnClickListener(this);
         itemView.setOnLongClickListener(this);

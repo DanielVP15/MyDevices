@@ -31,10 +31,10 @@ public class DeviceListActivity extends AppCompatActivity {
     private void init() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
 
-        Device a5 = new Device("Galaxy A5","1",true,"rodrigo");
-        Device k4 = new Device("LG K4","2",true,"rafael");
-        Device g1 = new Device("Motorola G1","3",true,"daniel");
-        Device xa = new Device("Sony Xperia XA","4",true,"calazans");
+        Device a5 = new Device("Galaxy A5","1",true,"Rodrigo Felippo");
+        Device k4 = new Device("LG K4","2",true,"Rafael Brito");
+        Device g1 = new Device("Motorola G1","3",false,"Daniel Pires");
+        Device xa = new Device("Sony Xperia XA","4",true,"Gabriel Calazans");
         List<Device> device = new ArrayList<>();
         device.add(a5);
         device.add(k4);
