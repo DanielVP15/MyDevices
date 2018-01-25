@@ -23,16 +23,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/image_layout">
+
         <TextView
             android:id="@+id/support_model_information_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Modelo: "/>
+            android:text="@string/support_model_text"/>
 
         <TextView
             android:id="@+id/model_information_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"/>
 
     </LinearLayout>
 
@@ -41,16 +43,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/model_layout">
+
         <TextView
             android:id="@+id/support_id_information_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ID: "/>
+            android:text="@string/support_id_text"/>
 
         <TextView
             android:id="@+id/id_information_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:padding="5dp"/>
 
     </LinearLayout>
 
@@ -61,16 +65,38 @@
         android:orientation="horizontal"
         android:layout_below="@+id/id_layout">
 
-    <TextView
-        android:id="@+id/support_user_information_text"
+        <TextView
+            android:id="@+id/support_status_information_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/support_status_text"/>
+
+        <TextView
+            android:id="@+id/status_information_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/user_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Status: "/>
+        android:orientation="horizontal"
+        android:layout_below="@+id/status_layout">
 
-    <TextView
-        android:id="@+id/user_information_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/support_user_information_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/support_user_text"/>
+
+        <TextView
+            android:id="@+id/user_information_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

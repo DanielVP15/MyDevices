@@ -22,7 +22,7 @@ import static android.R.color.white;
  * Created by rfpereira on 23/01/2018.
  */
 
-public class DeviceAdapter extends RecyclerView.Adapter {
+public class DeviceAdapter extends RecyclerView.Adapter implements View.OnClickListener {
 
     private List<Device> devices;
     private Context context;
@@ -65,27 +65,11 @@ public class DeviceAdapter extends RecyclerView.Adapter {
                 break;
         }
 
-        if (device.getStatus()){
-            holder.status.setText("Disponível");
-            holder.status.setTextColor(Color.GREEN);
+        getStatusInformation(holder,device);
 
-            holder.statusUser.setText("Ultimo uso: "+device.getUser());
-            holder.statusUser.setTextColor(Color.BLACK);
 
-            holder.buttonDevice.setVisibility(View.VISIBLE);
-            holder.buttonOffDevice.setVisibility(View.GONE);
-
-        }else{
-            holder.status.setText("Indisponível");
-            holder.status.setTextColor(Color.RED);
-
-            holder.statusUser.setText("Em uso: "+device.getUser());
-            holder.statusUser.setTextColor(Color.BLACK);
-
-            holder.buttonDevice.setVisibility(View.GONE);
-            holder.buttonOffDevice.setVisibility(View.VISIBLE);
-
-        }
+        holder.buttonDevice.setOnClickListener(this);
+        holder.buttonOffDevice.setOnClickListener(this);
 
 
         holder.setItemClickListener(new ItemClickListener() {
@@ -114,6 +98,49 @@ public class DeviceAdapter extends RecyclerView.Adapter {
         Intent it = new Intent(context, DeviceInformationActivity.class);
         it.putExtra(DeviceExtras.TAG_DEVICE, device);
         context.startActivity(it);
+
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.button_device:
+                Toast.makeText(context, " ooooooo", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.button_off_device:
+                Toast.makeText(context, "aaaaaaaa ", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+    }
+
+
+
+    public void getStatusInformation(DeviceViewHolder holder, Device device){
+        if (device.getStatus()){
+            holder.status.setText("Disponível");
+            holder.status.setTextColor(Color.GREEN);
+
+            holder.statusUser.setText("Ultimo uso: "+device.getUser());
+            holder.statusUser.setTextColor(Color.BLACK);
+
+            holder.buttonDevice.setVisibility(View.VISIBLE);
+            holder.buttonOffDevice.setVisibility(View.GONE);
+
+
+
+        }else{
+            holder.status.setText("Indisponível");
+            holder.status.setTextColor(Color.RED);
+
+            holder.statusUser.setText("Em uso: "+device.getUser());
+            holder.statusUser.setTextColor(Color.BLACK);
+
+            holder.buttonDevice.setVisibility(View.GONE);
+            holder.buttonOffDevice.setVisibility(View.VISIBLE);
+
+        }
 
     }
 }
