@@ -16,11 +16,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseUser user;
 
     private static final String TAG = "loginTest";
 
@@ -90,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Log.w(TAG, "signInWithEmail:failed", task.getException());
                                 Toast.makeText(LoginActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
                             } else {
-                                callListDevicesActivity();
+                                checkUsername();
                             }
                         }
                     });
@@ -98,8 +104,45 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void callListDevicesActivity() {
+        /*FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("teste");
+
+        myRef.setValue("kiokjhj");
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue(String.class);
+                Log.d(TAG, "Value is: " + value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });*/
+
+
         Intent it = new Intent(this, DeviceListActivity.class);
         startActivity(it);
+    }
+
+    public void checkUsername() {
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // Name, email address, and profile photo Url
+            String name = user.getDisplayName();
+            if (name == null) {
+                Intent it = new Intent(this, PutNameActivity.class);
+                startActivityForResult(it, 1);
+            } else {
+                callListDevicesActivity();
+            }
+        }
     }
 
     @Override
@@ -108,5 +151,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.login_button:
                 signIn();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            switch (requestCode) {
+                case 1:
+                    callListDevicesActivity();
+                    break;
+            }
+        }
+
+
     }
 }

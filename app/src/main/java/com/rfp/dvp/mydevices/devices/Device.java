@@ -6,17 +6,20 @@ package com.rfp.dvp.mydevices.devices;
 
 public class Device {
 
-    final String model;
-    final String id;
-    final boolean active;
-    final String user;
+    String model;
+    String id;
+    boolean active;
+    String user;
 
-    public Device(String model, String id,
-                 boolean active, String user) {
+    public  Device(){
+
+    }
+
+    public Device(String model, String id, String user) {
 
         this.model = model;
         this.id = id;
-        this.active = active;
+
         this.user = user;
     }
 
@@ -35,4 +38,9 @@ public class Device {
     public String getUser() {
         return user;
     }
+
+    public void setId(String id){
+        this.id = id;
+    }
+
 }
