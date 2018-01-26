@@ -2,7 +2,9 @@ package com.rfp.dvp.mydevices;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +16,17 @@ import com.rfp.dvp.mydevices.utils.ItemClickListener;
 
 import java.util.List;
 
+import static android.R.color.holo_green_dark;
+import static android.R.color.white;
+
 /**
  * Created by rfpereira on 23/01/2018.
  */
 
-public class DeviceAdapter extends RecyclerView.Adapter {
+public class DeviceAdapter extends RecyclerView.Adapter{
 
     private List<Device> devices;
     private Context context;
-
-    private static final String TAG_DEVICE_A5 = "Galaxy A5";
-    private static final String TAG_DEVICE_K4 = "LG K4";
-    private static final String TAG_DEVICE_G1 = "Motorola G1";
-    private static final String TAG_DEVICE_XA = "Sony Xperia XA";
 
     public DeviceAdapter(List<Device> devices, Context context) {
         this.devices = devices;
@@ -45,21 +45,48 @@ public class DeviceAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
 
-        DeviceViewHolder holder = (DeviceViewHolder) viewHolder;
+        final DeviceViewHolder holder = (DeviceViewHolder) viewHolder;
 
-        Device device  = devices.get(position) ;
+        final Device device  = devices.get(position) ;
 
         holder.model.setText(device.getModel());
 
-        if(device.getModel().equals(TAG_DEVICE_A5)){
-            holder.image.setImageResource(R.drawable.a5);
-        }else if(device.getModel().equals(TAG_DEVICE_K4)){
-            holder.image.setImageResource(R.drawable.k4);
-        }else if(device.getModel().equals(TAG_DEVICE_G1)){
-            holder.image.setImageResource(R.drawable.g1);
-        }else if(device.getModel().equals(TAG_DEVICE_XA)){
-            holder.image.setImageResource(R.drawable.xa);
+        switch (device.getModel()){
+            case DeviceExtras.TAG_A5:
+                holder.image.setImageResource(R.drawable.a5);
+                break;
+            case DeviceExtras.TAG_K4:
+                holder.image.setImageResource(R.drawable.k4);
+                break;
+            case DeviceExtras.TAG_G1:
+                holder.image.setImageResource(R.drawable.g1);
+                break;
+            case DeviceExtras.TAG_XA:
+                holder.image.setImageResource(R.drawable.xa);
+                break;
         }
+
+        getStatusInformation(holder,device);
+
+
+        holder.buttonDevice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int position = holder.getAdapterPosition();
+                device.setStatus(false);
+                DeviceAdapter.this.notifyItemChanged(position);
+            }
+        });
+
+        holder.buttonOffDevice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int position = holder.getAdapterPosition();
+                device.setStatus(true);
+                DeviceAdapter.this.notifyItemChanged(position);
+            }
+        });
+
 
         holder.setItemClickListener(new ItemClickListener() {
             @Override
@@ -67,10 +94,8 @@ public class DeviceAdapter extends RecyclerView.Adapter {
                 if(isLongClick){
                     Toast.makeText(context, "Long Click: "+ devices.get(position), Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(context, " "+ devices.get(position).getModel(), Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(context,devices.get(position).getModel(), Toast.LENGTH_SHORT).show();
                     callDeviceInformationActivity(devices.get(position));
-
                 }
             }
         });
@@ -88,5 +113,38 @@ public class DeviceAdapter extends RecyclerView.Adapter {
         it.putExtra(DeviceExtras.TAG_DEVICE, device);
         context.startActivity(it);
 
+    }
+
+
+
+    public void getStatusInformation(DeviceViewHolder holder, Device device){
+        if (device.getStatus()){
+            holder.status.setText("Disponível");
+            holder.status.setTextColor(Color.GREEN);
+
+            holder.statusUser.setText("Ultimo uso: "+device.getUser());
+            holder.statusUser.setTextColor(Color.BLACK);
+
+            holder.buttonDevice.setVisibility(View.VISIBLE);
+            holder.buttonOffDevice.setVisibility(View.GONE);
+
+
+
+        }else{
+            holder.status.setText("Indisponível");
+            holder.status.setTextColor(Color.RED);
+
+            holder.statusUser.setText("Em uso: "+device.getUser());
+            holder.statusUser.setTextColor(Color.BLACK);
+
+            holder.buttonDevice.setVisibility(View.GONE);
+            holder.buttonOffDevice.setVisibility(View.VISIBLE);
+
+        }
+
+    }
+
+    private void updateListItem(int position) {
+        notifyItemChanged(position);
     }
 }
