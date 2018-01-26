@@ -1,9 +1,13 @@
 package com.rfp.dvp.mydevices;
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import com.rfp.dvp.mydevices.devices.Device;
 
@@ -14,6 +18,10 @@ public class DeviceListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     RecyclerView.LayoutManager layout;
+
+    private AlertDialog.Builder alert;
+    private AlertDialog alt;
+    private boolean isAlertCreate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +37,12 @@ public class DeviceListActivity extends AppCompatActivity {
     }
 
     private void init() {
+
+        if (alert == null) {
+            createAlertDialog();
+        }
+
+
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
 
         Device a5 = new Device("Galaxy A5","1",true,"Rodrigo Felippo");
@@ -45,7 +59,33 @@ public class DeviceListActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layout);
+
+        dismissProgressDialog();
     }
+
+    private void createAlertDialog(){
+        if (!isAlertCreate) {
+            isAlertCreate = true;
+            alert = new AlertDialog.Builder(this);
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.custom_alertdialog_layout, null);
+            alert.setView(dialogView);
+
+
+            alert.setCancelable(false);
+            alt = alert.create();
+            alt.show();
+        }
+    }
+
+    private void dismissProgressDialog() {
+        if (alt != null && alt.isShowing()) {
+            alt.dismiss();
+            isAlertCreate = false;
+        }
+    }
+
+
 
 
 
