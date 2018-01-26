@@ -17,6 +17,8 @@ public class DeviceViewHolder extends RecyclerView.ViewHolder implements View.On
     final TextView model;
     final TextView status;
     final TextView statusUser;
+    final TextView lastNameStatusUser;
+    final TextView supportStatusUser;
     final ImageView image;
     final Button buttonDevice;
     final Button buttonOffDevice;
@@ -33,6 +35,8 @@ public class DeviceViewHolder extends RecyclerView.ViewHolder implements View.On
         model = (TextView) itemView.findViewById(R.id.txt_model);
         status = (TextView) itemView.findViewById(R.id.txt_status);
         statusUser = (TextView) itemView.findViewById(R.id.txt_status_user);
+        lastNameStatusUser = (TextView) itemView.findViewById(R.id.txt_last_name_status_user);
+        supportStatusUser = (TextView) itemView.findViewById(R.id.txt_support_status_user);
         image = (ImageView) itemView.findViewById(R.id.image);
         buttonDevice = (Button) itemView.findViewById(R.id.button_device);
         buttonOffDevice = (Button) itemView.findViewById(R.id.button_off_device);
