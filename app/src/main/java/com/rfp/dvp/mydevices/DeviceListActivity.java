@@ -19,6 +19,7 @@ import java.util.List;
 public class DeviceListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    RecyclerView.LayoutManager layout;
     private FirebaseDatabase database;
     private DatabaseReference mDatabase;
 
@@ -28,6 +29,11 @@ public class DeviceListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_list);
         fireBaseCheck();
+
+        if(getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
+
         init();
 
     }
@@ -47,7 +53,8 @@ public class DeviceListActivity extends AppCompatActivity {
         writeDevices(device);
         recyclerView.setAdapter(new DeviceAdapter(device, this));
 
-        RecyclerView.LayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setHasFixedSize(true);
+        layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layout);
     }
 
