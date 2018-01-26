@@ -28,7 +28,7 @@
         android:id="@+id/id_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/model_layout">
+        android:layout_below="@id/model_layout">
         <TextView
             android:id="@+id/support_id_information_text"
             android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@+id/id_layout">
+        android:layout_below="@id/id_layout">
 
     <TextView
         android:id="@+id/support_user_information_text"

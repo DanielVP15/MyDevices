@@ -5,7 +5,7 @@ package com.rfp.dvp.mydevices.commons;
  */
 
 public class DeviceExtras {
-
     public static final String TAG_DEVICE = "device";
-
+    public static final String TAG_DEVICES = "devices";
+    public static final String TAG_USERS = "users";
 }
