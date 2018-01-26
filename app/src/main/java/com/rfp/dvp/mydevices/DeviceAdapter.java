@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import static android.R.color.white;
  * Created by rfpereira on 23/01/2018.
  */
 
-public class DeviceAdapter extends RecyclerView.Adapter implements View.OnClickListener {
+public class DeviceAdapter extends RecyclerView.Adapter{
 
     private List<Device> devices;
     private Context context;
@@ -44,9 +45,9 @@ public class DeviceAdapter extends RecyclerView.Adapter implements View.OnClickL
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
 
-        DeviceViewHolder holder = (DeviceViewHolder) viewHolder;
+        final DeviceViewHolder holder = (DeviceViewHolder) viewHolder;
 
-        Device device  = devices.get(position) ;
+        final Device device  = devices.get(position) ;
 
         holder.model.setText(device.getModel());
 
@@ -68,8 +69,23 @@ public class DeviceAdapter extends RecyclerView.Adapter implements View.OnClickL
         getStatusInformation(holder,device);
 
 
-        holder.buttonDevice.setOnClickListener(this);
-        holder.buttonOffDevice.setOnClickListener(this);
+        holder.buttonDevice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int position = holder.getAdapterPosition();
+                device.setStatus(false);
+                DeviceAdapter.this.notifyItemChanged(position);
+            }
+        });
+
+        holder.buttonOffDevice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int position = holder.getAdapterPosition();
+                device.setStatus(true);
+                DeviceAdapter.this.notifyItemChanged(position);
+            }
+        });
 
 
         holder.setItemClickListener(new ItemClickListener() {
@@ -78,10 +94,8 @@ public class DeviceAdapter extends RecyclerView.Adapter implements View.OnClickL
                 if(isLongClick){
                     Toast.makeText(context, "Long Click: "+ devices.get(position), Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(context, " "+ devices.get(position).getModel(), Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(context,devices.get(position).getModel(), Toast.LENGTH_SHORT).show();
                     callDeviceInformationActivity(devices.get(position));
-
                 }
             }
         });
@@ -98,20 +112,6 @@ public class DeviceAdapter extends RecyclerView.Adapter implements View.OnClickL
         Intent it = new Intent(context, DeviceInformationActivity.class);
         it.putExtra(DeviceExtras.TAG_DEVICE, device);
         context.startActivity(it);
-
-    }
-
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.button_device:
-                Toast.makeText(context, " ooooooo", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.button_off_device:
-                Toast.makeText(context, "aaaaaaaa ", Toast.LENGTH_SHORT).show();
-                break;
-        }
 
     }
 
@@ -142,5 +142,9 @@ public class DeviceAdapter extends RecyclerView.Adapter implements View.OnClickL
 
         }
 
+    }
+
+    private void updateListItem(int position) {
+        notifyItemChanged(position);
     }
 }
