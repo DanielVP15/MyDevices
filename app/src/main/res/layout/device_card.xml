@@ -66,9 +66,8 @@
 
             <LinearLayout
                 android:id="@+id/third_layout_card"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="10dp"
                 android:layout_toRightOf="@+id/second_layout_card"
                 android:orientation="vertical">
 
@@ -76,15 +75,27 @@
                     android:id="@+id/txt_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="disponível" />
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:id="@+id/txt_support_status_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:layout_gravity="center"
+                    android:text="@string/support_user_text"/>
 
                 <TextView
                     android:id="@+id/txt_status_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:gravity="center" />
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:id="@+id/txt_last_name_status_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
 
             </LinearLayout>
 

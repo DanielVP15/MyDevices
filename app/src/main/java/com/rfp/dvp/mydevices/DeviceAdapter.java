@@ -28,6 +28,11 @@ public class DeviceAdapter extends RecyclerView.Adapter{
     private List<Device> devices;
     private Context context;
 
+    public static final String AVAILABLE = "Disponível";
+    public static final String UNAVAILABLE = "Indisponível";
+    public static final String USED = "Ultimo uso: ";
+    public static final String USING = "Em uso: ";
+
     public DeviceAdapter(List<Device> devices, Context context) {
         this.devices = devices;
         this.context = context;
@@ -118,24 +123,37 @@ public class DeviceAdapter extends RecyclerView.Adapter{
 
 
     public void getStatusInformation(DeviceViewHolder holder, Device device){
+
+        String[] userNameArray = device.getUser().split(" ");
+
         if (device.getStatus()){
-            holder.status.setText("Disponível");
+
+            holder.status.setText(AVAILABLE);
             holder.status.setTextColor(Color.GREEN);
 
-            holder.statusUser.setText("Ultimo uso: "+device.getUser());
+            holder.supportStatusUser.setText(USED);
+
+            holder.statusUser.setText(userNameArray[0]);
             holder.statusUser.setTextColor(Color.BLACK);
+
+            holder.lastNameStatusUser.setText(userNameArray[1]);
+            holder.lastNameStatusUser.setTextColor(Color.BLACK);
 
             holder.buttonDevice.setVisibility(View.VISIBLE);
             holder.buttonOffDevice.setVisibility(View.GONE);
 
-
-
         }else{
-            holder.status.setText("Indisponível");
+
+            holder.status.setText(UNAVAILABLE);
             holder.status.setTextColor(Color.RED);
 
-            holder.statusUser.setText("Em uso: "+device.getUser());
+            holder.supportStatusUser.setText(USING);
+
+            holder.statusUser.setText(userNameArray[0]);
             holder.statusUser.setTextColor(Color.BLACK);
+
+            holder.lastNameStatusUser.setText(userNameArray[1]);
+            holder.lastNameStatusUser.setTextColor(Color.BLACK);
 
             holder.buttonDevice.setVisibility(View.GONE);
             holder.buttonOffDevice.setVisibility(View.VISIBLE);
