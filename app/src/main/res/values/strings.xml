@@ -16,6 +16,9 @@
     <string name="available">Dísponível</string>
     <string name="unavailable">Indisponível</string>
 
+    <string name="used_text">Em uso:</string>
+    <string name="using_text">Em uso:</string>
+
     <string name="support_model_text">Model:</string>
     <string name="support_id_text">ID:</string>
     <string name="support_status_text">Status:</string>

@@ -161,8 +161,4 @@ public class DeviceAdapter extends RecyclerView.Adapter{
         }
 
     }
-
-    private void updateListItem(int position) {
-        notifyItemChanged(position);
-    }
 }

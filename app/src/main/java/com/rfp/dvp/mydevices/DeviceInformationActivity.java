@@ -20,12 +20,7 @@ public class DeviceInformationActivity extends AppCompatActivity {
     private TextView statusInformation;
     private TextView idInformation;
     private ImageView imageView;
-
-    public static final String AVAILABLE = "Disponível";
-    public static final String UNAVAILABLE = "Indisponível";
-    public static final String USED = "Ultimo uso: ";
-    public static final String USING = "Em uso: ";
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,13 +55,13 @@ public class DeviceInformationActivity extends AppCompatActivity {
         idInformation.setText(device.getId());
 
         if (device.getStatus()){
-            statusInformation.setText(AVAILABLE);
-            supportUserInformation.setText(USED);
+            statusInformation.setText(getResources().getString(R.string.available));
+            supportUserInformation.setText(getResources().getString(R.string.used_text));
             userInformation.setText(device.getUser());
 
         }else{
-            statusInformation.setText(UNAVAILABLE);
-            supportUserInformation.setText(USING);
+            statusInformation.setText(getResources().getString(R.string.unavailable));
+            supportUserInformation.setText(getResources().getString(R.string.using_text));
             userInformation.setText(device.getUser());
         }
 
