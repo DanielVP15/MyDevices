@@ -13,4 +13,5 @@ public class DeviceExtras {
 
     public static final String TAG_DEVICES = "devices";
     public static final String TAG_USERS = "users";
+    public static final String TAG_USAGES = "usos";
 }

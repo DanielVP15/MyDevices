@@ -1,21 +1,19 @@
 package com.rfp.dvp.mydevices;
 
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rfp.dvp.mydevices.commons.DeviceExtras;
-import com.rfp.dvp.mydevices.devices.Device;
+import com.rfp.dvp.mydevices.objects.Device;
 
 public class DeviceInformationActivity extends AppCompatActivity {
 
     private Device device;
 
     private TextView modelInformation;
-    private TextView userInformation;
+   // private TextView userInformation;
     private TextView supportUserInformation;
     private TextView statusInformation;
     private TextView idInformation;
@@ -42,7 +40,7 @@ public class DeviceInformationActivity extends AppCompatActivity {
 
         modelInformation = (TextView) findViewById(R.id.model_information_text);
         statusInformation = (TextView) findViewById(R.id.status_information_text);
-        userInformation = (TextView) findViewById(R.id.user_information_text);
+        //userInformation = (TextView) findViewById(R.id.user_information_text);
         supportUserInformation = (TextView) findViewById(R.id.support_user_information_text);
 
         idInformation = (TextView) findViewById(R.id.id_information_text);
@@ -62,12 +60,12 @@ public class DeviceInformationActivity extends AppCompatActivity {
         if (device.getStatus()){
             statusInformation.setText(AVAILABLE);
             supportUserInformation.setText(USED);
-            userInformation.setText(device.getUser());
+            /*userInformation.setText(device.getUser());*/
 
         }else{
             statusInformation.setText(UNAVAILABLE);
             supportUserInformation.setText(USING);
-            userInformation.setText(device.getUser());
+           /* userInformation.setText(device.getUser());*/
         }
 
         switch (device.getModel()){

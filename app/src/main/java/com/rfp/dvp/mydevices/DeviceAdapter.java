@@ -4,29 +4,31 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
 import com.rfp.dvp.mydevices.commons.DeviceExtras;
-import com.rfp.dvp.mydevices.devices.Device;
+import com.rfp.dvp.mydevices.commons.Firebase;
+import com.rfp.dvp.mydevices.objects.Device;
 import com.rfp.dvp.mydevices.utils.ItemClickListener;
 
+import java.util.HashMap;
 import java.util.List;
-
-import static android.R.color.holo_green_dark;
-import static android.R.color.white;
+import java.util.Map;
 
 /**
  * Created by rfpereira on 23/01/2018.
  */
 
-public class DeviceAdapter extends RecyclerView.Adapter{
+public class DeviceAdapter extends RecyclerView.Adapter {
 
     private List<Device> devices;
     private Context context;
+    private DatabaseReference mDatabase;
+
 
     public static final String AVAILABLE = "Disponível";
     public static final String UNAVAILABLE = "Indisponível";
@@ -52,11 +54,11 @@ public class DeviceAdapter extends RecyclerView.Adapter{
 
         final DeviceViewHolder holder = (DeviceViewHolder) viewHolder;
 
-        final Device device  = devices.get(position) ;
+        final Device device = devices.get(position);
 
         holder.model.setText(device.getModel());
 
-        switch (device.getModel()){
+        switch (device.getModel()) {
             case DeviceExtras.TAG_A5:
                 holder.image.setImageResource(R.drawable.a5);
                 break;
@@ -71,7 +73,7 @@ public class DeviceAdapter extends RecyclerView.Adapter{
                 break;
         }
 
-        getStatusInformation(holder,device);
+        getStatusInformation(holder, device);
 
 
         holder.buttonDevice.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +81,8 @@ public class DeviceAdapter extends RecyclerView.Adapter{
             public void onClick(View v) {
                 final int position = holder.getAdapterPosition();
                 device.setStatus(false);
+                updateDevice(device);
+                Firebase.startUse(device);
                 DeviceAdapter.this.notifyItemChanged(position);
             }
         });
@@ -88,6 +92,8 @@ public class DeviceAdapter extends RecyclerView.Adapter{
             public void onClick(View v) {
                 final int position = holder.getAdapterPosition();
                 device.setStatus(true);
+                updateDevice(device);
+                Firebase.endUse(device);
                 DeviceAdapter.this.notifyItemChanged(position);
             }
         });
@@ -96,10 +102,10 @@ public class DeviceAdapter extends RecyclerView.Adapter{
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
-                if(isLongClick){
-                    Toast.makeText(context, "Long Click: "+ devices.get(position), Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(context,devices.get(position).getModel(), Toast.LENGTH_SHORT).show();
+                if (isLongClick) {
+                    Toast.makeText(context, "Long Click: " + devices.get(position), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, devices.get(position).getModel(), Toast.LENGTH_SHORT).show();
                     callDeviceInformationActivity(devices.get(position));
                 }
             }
@@ -112,7 +118,7 @@ public class DeviceAdapter extends RecyclerView.Adapter{
         return devices.size();
     }
 
-    public void callDeviceInformationActivity(Device device){
+    public void callDeviceInformationActivity(Device device) {
 
         Intent it = new Intent(context, DeviceInformationActivity.class);
         it.putExtra(DeviceExtras.TAG_DEVICE, device);
@@ -121,39 +127,38 @@ public class DeviceAdapter extends RecyclerView.Adapter{
     }
 
 
+    public void getStatusInformation(DeviceViewHolder holder, Device device) {
 
-    public void getStatusInformation(DeviceViewHolder holder, Device device){
+//        String[] userNameArray = device.getUser().split(" ");
 
-        String[] userNameArray = device.getUser().split(" ");
-
-        if (device.getStatus()){
+        if (device.getStatus()) {
 
             holder.status.setText(AVAILABLE);
             holder.status.setTextColor(Color.GREEN);
 
             holder.supportStatusUser.setText(USED);
 
-            holder.statusUser.setText(userNameArray[0]);
+          /*  holder.statusUser.setText(userNameArray[0]);
             holder.statusUser.setTextColor(Color.BLACK);
 
             holder.lastNameStatusUser.setText(userNameArray[1]);
-            holder.lastNameStatusUser.setTextColor(Color.BLACK);
+            holder.lastNameStatusUser.setTextColor(Color.BLACK);*/
 
             holder.buttonDevice.setVisibility(View.VISIBLE);
             holder.buttonOffDevice.setVisibility(View.GONE);
 
-        }else{
+        } else {
 
             holder.status.setText(UNAVAILABLE);
             holder.status.setTextColor(Color.RED);
 
             holder.supportStatusUser.setText(USING);
 
-            holder.statusUser.setText(userNameArray[0]);
+           /* holder.statusUser.setText(userNameArray[0]);
             holder.statusUser.setTextColor(Color.BLACK);
 
             holder.lastNameStatusUser.setText(userNameArray[1]);
-            holder.lastNameStatusUser.setTextColor(Color.BLACK);
+            holder.lastNameStatusUser.setTextColor(Color.BLACK);*/
 
             holder.buttonDevice.setVisibility(View.GONE);
             holder.buttonOffDevice.setVisibility(View.VISIBLE);
@@ -164,5 +169,17 @@ public class DeviceAdapter extends RecyclerView.Adapter{
 
     private void updateListItem(int position) {
         notifyItemChanged(position);
+    }
+
+    private void updateDevice(Device device) {
+        mDatabase = Firebase.getDatabase();
+
+        mDatabase.child("devices").push();
+        Map<String, Object> deviceValue = device.toMap();
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/devices/" + device.getId() + "/", deviceValue);
+
+        mDatabase.updateChildren(childUpdates);
     }
 }

@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.rfp.dvp.mydevices.commons.Firebase;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -126,7 +127,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });*/
 
-
+        Firebase.initFirebase();
         Intent it = new Intent(this, DeviceListActivity.class);
         startActivity(it);
     }
@@ -135,13 +136,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             // Name, email address, and profile photo Url
-            String name = user.getDisplayName();
-            if (name == null) {
-                Intent it = new Intent(this, PutNameActivity.class);
-                startActivityForResult(it, 1);
-            } else {
-                callListDevicesActivity();
-            }
+
+            callListDevicesActivity();
+
         }
     }
 

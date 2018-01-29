@@ -1,4 +1,4 @@
-package com.rfp.dvp.mydevices.devices;
+package com.rfp.dvp.mydevices.objects;
 
 /**
  * Created by dvpires on 24/01/2018.
