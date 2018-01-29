@@ -2,16 +2,19 @@ package com.rfp.dvp.mydevices;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,7 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rfp.dvp.mydevices.commons.Firebase;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -34,6 +37,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public EditText mEmail;
     public EditText mPassword;
     public Button mLogin;
+
+    private AlertDialog.Builder alert;
+    private AlertDialog alt;
+    private boolean isAlertCreate;
 
 
     @Override
@@ -75,7 +82,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
+
     }
+
 
     private void init() {
         mEmail = (EditText) findViewById(R.id.login_email_edit_text);
@@ -85,26 +94,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void signIn() {
+        createAlertDialog();
         if (!TextUtils.isEmpty(mEmail.getText().toString().trim())
                 && !TextUtils.isEmpty(mPassword.getText().toString().trim())) {
-
 
             mAuth.signInWithEmailAndPassword(mEmail.getText().toString().trim(), mPassword.getText().toString().trim())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (!task.isSuccessful()) {
+                                dismissProgressDialog();
                                 Log.w(TAG, "signInWithEmail:failed", task.getException());
                                 Toast.makeText(LoginActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
                             } else {
                                 checkUsername();
                             }
+                            dismissProgressDialog();
                         }
+
                     });
+        }else{
+            dismissProgressDialog();
         }
     }
 
     private void callListDevicesActivity() {
+        dismissProgressDialog();
         /*FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("teste");
 
@@ -147,6 +162,34 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.login_button:
                 signIn();
+        }
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        dismissProgressDialog();
+    }
+
+    private void createAlertDialog() {
+        if (!isAlertCreate) {
+            isAlertCreate = true;
+            alert = new AlertDialog.Builder(this);
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.custom_alertdialog_layout, null);
+            alert.setView(dialogView);
+
+
+            alert.setCancelable(false);
+            alt = alert.create();
+            alt.show();
+        }
+    }
+
+    private void dismissProgressDialog() {
+        if (alt != null && alt.isShowing()) {
+            alt.dismiss();
+            isAlertCreate = false;
         }
     }
 

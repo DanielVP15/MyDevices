@@ -19,11 +19,6 @@ public class DeviceInformationActivity extends AppCompatActivity {
     private TextView idInformation;
     private ImageView imageView;
 
-    public static final String AVAILABLE = "Disponível";
-    public static final String UNAVAILABLE = "Indisponível";
-    public static final String USED = "Ultimo uso: ";
-    public static final String USING = "Em uso: ";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
