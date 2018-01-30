@@ -5,6 +5,7 @@
     <string name="email">Email</string>
     <string name="Password">Senha</string>
     <string name="login">Entrar</string>
+    <string name="registry">Cadastrar</string>
     <string name="put_name">Digite o seu nome</string>
     <string name="continue_button">Continuar</string>
 

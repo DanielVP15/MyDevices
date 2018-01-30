@@ -11,7 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rfp.dvp.mydevices.objects.Device;
 import com.rfp.dvp.mydevices.objects.User;
-import com.rfp.dvp.mydevices.objects.Uso;
+import com.rfp.dvp.mydevices.objects.Use;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -25,7 +25,7 @@ public class Firebase {
 
     private static DatabaseReference mDatabase;
     private static User mUser;
-    private static Uso mUsage;
+    private static Use mUsage;
 
     public static void initFirebase() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -45,7 +45,7 @@ public class Firebase {
 
     public static void startUse(Device device) {
         Date data = new Date();
-        Uso usage = new Uso(mUser.getEmail(), device.getModel(), device.getId(), data.toString(), false);
+        Use usage = new Use(mUser.getEmail(), device.getModel(), device.getId(), data.toString(), false);
         mDatabase.child(DeviceExtras.TAG_USAGES).child(data.toString()).setValue(usage);
     }
 
@@ -54,14 +54,14 @@ public class Firebase {
         loadUsages(device);
     }
 
-    private static void finishUse(Uso usage) {
+    private static void finishUse(Use usage) {
         Date data = new Date();
-        mUsage.setFim(data.toString());
+        mUsage.setEnd(data.toString());
         mUsage.isReturned();
         Map<String, Object> usageValue = mUsage.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/usos/" + mUsage.getInicio() + "/", usageValue);
+        childUpdates.put("/usos/" + mUsage.getStart() + "/", usageValue);
 
         mDatabase.updateChildren(childUpdates);
         mUsage = null;
@@ -73,7 +73,7 @@ public class Firebase {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.exists()) {
-                    Uso usage = dataSnapshot.getValue(Uso.class);
+                    Use usage = dataSnapshot.getValue(Use.class);
                     if (!usage.getReturned() && usage.getDeviceId().equals(mDevice.getId())) {
                         mUsage = usage;
                         finishUse(usage);
@@ -85,7 +85,7 @@ public class Firebase {
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.exists()) {
-                    Uso usage = dataSnapshot.getValue(Uso.class);
+                    Use usage = dataSnapshot.getValue(Use.class);
                     if (!usage.getReturned() && usage.getDeviceId().equals(mDevice.getId())) {
                         mUsage = usage;
                         finishUse(usage);

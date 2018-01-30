@@ -76,7 +76,7 @@ public class DeviceListActivity extends AppCompatActivity {
         layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layout);
 
-        dismissProgressDialog();
+
     }
 
     private void createAlertDialog(){
@@ -108,7 +108,7 @@ public class DeviceListActivity extends AppCompatActivity {
         mDatabase.child(DeviceExtras.TAG_DEVICES).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.exists()) {
+                if (dataSnapshot.exists() &&  deviceList.size() < 4) {
                     Device device = dataSnapshot.getValue(Device.class);
                     if (device != null) {
                         Log.e("teste", "add");
@@ -117,6 +117,7 @@ public class DeviceListActivity extends AppCompatActivity {
                     }
 
                     mAdapter.notifyDataSetChanged();
+                    dismissProgressDialog();
                 }
             }
 

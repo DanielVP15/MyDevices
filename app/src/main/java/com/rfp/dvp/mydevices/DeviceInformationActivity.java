@@ -53,13 +53,13 @@ public class DeviceInformationActivity extends AppCompatActivity {
         idInformation.setText(device.getId());
 
         if (device.getStatus()){
-            statusInformation.setText(AVAILABLE);
-            supportUserInformation.setText(USED);
+            statusInformation.setText(getResources().getString(R.string.available));
+            supportUserInformation.setText(getResources().getString(R.string.used_text));
             /*userInformation.setText(device.getUser());*/
 
         }else{
-            statusInformation.setText(UNAVAILABLE);
-            supportUserInformation.setText(USING);
+            statusInformation.setText(getResources().getString(R.string.unavailable));
+            supportUserInformation.setText(getResources().getString(R.string.using_text));
            /* userInformation.setText(device.getUser());*/
         }
 

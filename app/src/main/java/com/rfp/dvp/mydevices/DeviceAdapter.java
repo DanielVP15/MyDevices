@@ -32,8 +32,8 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
     public static final String AVAILABLE = "Disponível";
     public static final String UNAVAILABLE = "Indisponível";
-    public static final String USED = "Ultimo uso: ";
-    public static final String USING = "Em uso: ";
+    public static final String USED = "Ultimo uso:";
+    public static final String USING = "Em uso:";
 
     public DeviceAdapter(List<Device> devices, Context context) {
         this.devices = devices;
