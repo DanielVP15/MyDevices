@@ -13,16 +13,11 @@ public class DeviceInformationActivity extends AppCompatActivity {
     private Device device;
 
     private TextView modelInformation;
-   // private TextView userInformation;
+    private TextView userInformation;
     private TextView supportUserInformation;
     private TextView statusInformation;
     private TextView idInformation;
     private ImageView imageView;
-
-    public static final String AVAILABLE = "Disponível";
-    public static final String UNAVAILABLE = "Indisponível";
-    public static final String USED = "Ultimo uso: ";
-    public static final String USING = "Em uso: ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +35,7 @@ public class DeviceInformationActivity extends AppCompatActivity {
 
         modelInformation = (TextView) findViewById(R.id.model_information_text);
         statusInformation = (TextView) findViewById(R.id.status_information_text);
-        //userInformation = (TextView) findViewById(R.id.user_information_text);
+        userInformation = (TextView) findViewById(R.id.user_information_text);
         supportUserInformation = (TextView) findViewById(R.id.support_user_information_text);
 
         idInformation = (TextView) findViewById(R.id.id_information_text);
@@ -60,12 +55,12 @@ public class DeviceInformationActivity extends AppCompatActivity {
         if (device.getStatus()){
             statusInformation.setText(getResources().getString(R.string.available));
             supportUserInformation.setText(getResources().getString(R.string.used_text));
-            /*userInformation.setText(device.getUser());*/
+            userInformation.setText(device.getCurrentUser());
 
         }else{
             statusInformation.setText(getResources().getString(R.string.unavailable));
             supportUserInformation.setText(getResources().getString(R.string.using_text));
-           /* userInformation.setText(device.getUser());*/
+            userInformation.setText(device.getCurrentUser());
         }
 
         switch (device.getModel()){
