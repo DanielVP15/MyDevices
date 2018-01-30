@@ -220,11 +220,11 @@ public class DeviceAdapter extends RecyclerView.Adapter {
         mutexAdd.lock();
         for (Uso usage : usages) {
             if (!usage.getReturned() && usage.getDeviceId().equals(device.getId())) {
-                usage.setFim(data.toString());
+                usage.setEnd(data.toString());
                 usage.isReturned();
                 Map<String, Object> usageValue = usage.toMap();
                 Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put("/usos/" + usage.getInicio() + "/", usageValue);
+                childUpdates.put("/usos/" + usage.getStart() + "/", usageValue);
                 Log.e("teste", "finishUse");
                 mDatabase.updateChildren(childUpdates);
             }
@@ -238,7 +238,7 @@ public class DeviceAdapter extends RecyclerView.Adapter {
         mutexInterator.lock();
         for (int i = 0; i < fim; ++i) {
             Uso mUsage = usages.get(i);
-            if (mUsage.getInicio() == usage.getInicio()) {
+            if (mUsage.getStart() == usage.getStart()) {
                 usages.remove(usages.get(i));
                 usages.add(usage);
             }
