@@ -16,7 +16,7 @@
             android:id="@+id/user_email_edt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"/>
+            android:hint="@string/email"/>
 
     </LinearLayout>
 
@@ -31,7 +31,7 @@
         android:id="@+id/user_password_edt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"/>
+        android:hint="@string/password"/>
     </LinearLayout>
 
 
@@ -46,7 +46,7 @@
             android:id="@+id/user_first_name_edt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nome"/>
+            android:hint="@string/name"/>
     </LinearLayout>
 
     <LinearLayout
@@ -60,7 +60,7 @@
             android:id="@+id/user_second_name_edt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Sobrenome"/>
+            android:hint="@string/second_name"/>
     </LinearLayout>
 
     <LinearLayout
@@ -74,7 +74,7 @@
             android:id="@+id/registry_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="cadastrar"/>
+            android:text="@string/registry_button_text"/>
 
     </LinearLayout>
 

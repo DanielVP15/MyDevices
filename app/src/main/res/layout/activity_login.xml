@@ -39,7 +39,7 @@
             android:id="@+id/login_password_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Password" />
+            android:text="@string/password" />
 
         <EditText
             android:id="@+id/login_password_edit_text"

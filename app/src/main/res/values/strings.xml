@@ -3,7 +3,7 @@
     <string name="model">Modelo</string>
     <string name="get">Usar</string>
     <string name="email">Email</string>
-    <string name="Password">Senha</string>
+    <string name="password">Senha</string>
     <string name="login">Entrar</string>
     <string name="registry">Cadastrar</string>
     <string name="put_name">Digite o seu nome</string>
@@ -29,6 +29,9 @@
     <string name="support_user_text">User:</string>
 
     <string name="processing_text">Processando...</string>
+    <string name="registry_button_text">cadastrar</string>
+    <string name="second_name">Sobrenome</string>
+    <string name="name">Nome</string>
 
 
 </resources>
