@@ -17,6 +17,8 @@ public class Device implements Parcelable {
     private String model;
     private String id;
     private boolean status;
+    private String currentUser;
+    private String currentUserID;
 
     public Device(){
 
@@ -49,6 +51,22 @@ public class Device implements Parcelable {
 
     public void setStatus(boolean status){
         this.status = status;
+    }
+
+    public String getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public String getCurrentUserID() {
+        return currentUserID;
+    }
+
+    public void setCurrentUserID(String currentUserID) {
+        this.currentUserID = currentUserID;
     }
 
     public static final Creator<Device> CREATOR = new Creator<Device>() {
@@ -86,6 +104,8 @@ public class Device implements Parcelable {
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("model", model);
+        result.put("currentUser", currentUser);
+        result.put("currentUserID", currentUserID);
         result.put("status", status);
         return result;
     }
