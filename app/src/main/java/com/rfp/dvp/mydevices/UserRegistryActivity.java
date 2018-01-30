@@ -62,12 +62,12 @@ public class UserRegistryActivity extends AppCompatActivity implements View.OnCl
 
     private void init(){
 
-        email = (EditText) findViewById(R.id.user_email_edt);
-        password = (EditText) findViewById(R.id.user_password_edt);
-        userFirstName = (EditText) findViewById(R.id.user_first_name_edt);
-        userSecondName = (EditText) findViewById(R.id.user_second_name_edt);
+        email = (EditText) findViewById(R.id.input_email);
+        password = (EditText) findViewById(R.id.input_password);
+        userFirstName = (EditText) findViewById(R.id.input_first_name);
+        userSecondName = (EditText) findViewById(R.id.input_second_name);
 
-        registryButton = (Button) findViewById(R.id.registry_button);
+        registryButton = (Button) findViewById(R.id.btn_signup);
         registryButton.setOnClickListener(this);
 
     }
@@ -162,7 +162,7 @@ public class UserRegistryActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
 
         switch (view.getId()){
-            case R.id.registry_button:
+            case R.id.btn_signup:
                 ConectionUtils.hideSoftKeyboard(activity);
                 initFirebase();
                 break;

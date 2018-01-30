@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,7 +42,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public EditText mEmail;
     public EditText mPassword;
     public Button mLogin;
-    public Button mRegistry;
+    public TextView mRegistry;
 
     private AlertDialog.Builder alert;
     private AlertDialog alt;
@@ -102,10 +103,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void init() {
-        mEmail = (EditText) findViewById(R.id.login_email_edit_text);
-        mPassword = (EditText) findViewById(R.id.login_password_edit_text);
-        mLogin = (Button) findViewById(R.id.login_button);
-        mRegistry = (Button) findViewById(R.id.registry_button);
+        mEmail = (EditText) findViewById(R.id.input_email);
+        mPassword = (EditText) findViewById(R.id.input_password);
+        mLogin = (Button) findViewById(R.id.btn_login);
+        mRegistry = (TextView) findViewById(R.id.link_signup);
         mLogin.setOnClickListener(this);
         mRegistry.setOnClickListener(this);
 
@@ -199,15 +200,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.login_button:
+            case R.id.btn_login:
                 ConectionUtils.hideSoftKeyboard(activity);
                 signIn();
                 break;
-            case R.id.registry_button:
+            case R.id.link_signup:
                 ConectionUtils.hideSoftKeyboard(activity);
                 callUserRegistryActivity();
                 break;
-
         }
     }
 
