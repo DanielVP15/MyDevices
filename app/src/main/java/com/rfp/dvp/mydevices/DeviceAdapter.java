@@ -18,16 +18,14 @@ import com.rfp.dvp.mydevices.commons.DeviceExtras;
 import com.rfp.dvp.mydevices.commons.Firebase;
 import com.rfp.dvp.mydevices.objects.Device;
 import com.rfp.dvp.mydevices.objects.User;
-import com.rfp.dvp.mydevices.objects.Uso;
+import com.rfp.dvp.mydevices.objects.Use;
 import com.rfp.dvp.mydevices.utils.ItemClickListener;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -38,7 +36,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class DeviceAdapter extends RecyclerView.Adapter {
 
     private List<Device> devices;
-    private List<Uso> usages;
+    private List<Use> usages;
     private Context context;
     private DatabaseReference mDatabase;
     private final Lock mutexAdd = new ReentrantLock();
@@ -211,14 +209,14 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
     private void startUsage(Device device) {
         Date data = new Date();
-        Uso usage = new Uso(Firebase.getUser().getEmail(), device.getModel(), device.getId(), data.toString(), false);
+        Use usage = new Use(Firebase.getUser().getEmail(), device.getModel(), device.getId(), data.toString(), false);
         mDatabase.child(DeviceExtras.TAG_USAGES).child(data.toString()).setValue(usage);
     }
 
     private void finishUse(Device device) {
         Date data = new Date();
         mutexAdd.lock();
-        for (Uso usage : usages) {
+        for (Use usage : usages) {
             if (!usage.getReturned() && usage.getDeviceId().equals(device.getId())) {
                 usage.setEnd(data.toString());
                 usage.isReturned();
@@ -233,11 +231,11 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
     }
 
-    public void updateUsageList(Uso usage) {
+    public void updateUsageList(Use usage) {
         int fim = usages.size();
         mutexInterator.lock();
         for (int i = 0; i < fim; ++i) {
-            Uso mUsage = usages.get(i);
+            Use mUsage = usages.get(i);
             if (mUsage.getStart() == usage.getStart()) {
                 usages.remove(usages.get(i));
                 usages.add(usage);
@@ -252,7 +250,7 @@ public class DeviceAdapter extends RecyclerView.Adapter {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.exists()) {
-                    Uso usageAdd = dataSnapshot.getValue(Uso.class);
+                    Use usageAdd = dataSnapshot.getValue(Use.class);
                     mutexAdd.lock();
                     usages.add(usageAdd);
                     mutexAdd.unlock();
@@ -263,7 +261,7 @@ public class DeviceAdapter extends RecyclerView.Adapter {
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.exists()) {
-                    Uso usage = dataSnapshot.getValue(Uso.class);
+                    Use usage = dataSnapshot.getValue(Use.class);
                     mutexAdd.lock();
                     updateUsageList(usage);
                     Log.e("teste", "changedU");
