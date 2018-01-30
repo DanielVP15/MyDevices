@@ -33,6 +33,7 @@ public class DeviceListActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layout;
     private DatabaseReference mDatabase;
     List<Device> deviceList = new ArrayList<>();
+    private boolean isLoaded;
 
 
     private AlertDialog.Builder alert;
@@ -63,7 +64,7 @@ public class DeviceListActivity extends AppCompatActivity {
         if (alert == null) {
             createAlertDialog();
         }
-
+        isLoaded = false;
 
         initRecycleView();
     }
@@ -79,7 +80,7 @@ public class DeviceListActivity extends AppCompatActivity {
 
     }
 
-    private void createAlertDialog(){
+    private void createAlertDialog() {
         if (!isAlertCreate) {
             isAlertCreate = true;
             alert = new AlertDialog.Builder(this);
@@ -102,9 +103,8 @@ public class DeviceListActivity extends AppCompatActivity {
     }
 
 
-
     private void loadDevices() {
-
+        isLoaded = true;
         mDatabase.child(DeviceExtras.TAG_DEVICES).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -135,17 +135,17 @@ public class DeviceListActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                Log.e("teste", "removed");
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                Log.e("teste", "moved");
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.e("teste", "cancelled");
             }
         });
 
@@ -156,6 +156,9 @@ public class DeviceListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        loadDevices();
+        if (!isLoaded) {
+            loadDevices();
+        }
+
     }
 }

@@ -4,20 +4,32 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.rfp.dvp.mydevices.commons.DeviceExtras;
 import com.rfp.dvp.mydevices.commons.Firebase;
 import com.rfp.dvp.mydevices.objects.Device;
+import com.rfp.dvp.mydevices.objects.User;
+import com.rfp.dvp.mydevices.objects.Uso;
 import com.rfp.dvp.mydevices.utils.ItemClickListener;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by rfpereira on 23/01/2018.
@@ -26,9 +38,11 @@ import java.util.Map;
 public class DeviceAdapter extends RecyclerView.Adapter {
 
     private List<Device> devices;
+    private List<Uso> usages;
     private Context context;
     private DatabaseReference mDatabase;
-
+    private final Lock mutexAdd = new ReentrantLock();
+    private final Lock mutexInterator = new ReentrantLock();
 
     public static final String AVAILABLE = "Disponível";
     public static final String UNAVAILABLE = "Indisponível";
@@ -38,6 +52,9 @@ public class DeviceAdapter extends RecyclerView.Adapter {
     public DeviceAdapter(List<Device> devices, Context context) {
         this.devices = devices;
         this.context = context;
+        usages = new ArrayList<>();
+        mDatabase = Firebase.getDatabase();
+        loadUsages();
 
     }
 
@@ -82,7 +99,7 @@ public class DeviceAdapter extends RecyclerView.Adapter {
                 final int position = holder.getAdapterPosition();
                 device.setStatus(false);
                 updateDevice(device);
-                Firebase.startUse(device);
+                startUsage(device);
                 DeviceAdapter.this.notifyItemChanged(position);
             }
         });
@@ -93,7 +110,7 @@ public class DeviceAdapter extends RecyclerView.Adapter {
                 final int position = holder.getAdapterPosition();
                 device.setStatus(true);
                 updateDevice(device);
-                Firebase.endUse(device);
+                finishUse(device);
                 DeviceAdapter.this.notifyItemChanged(position);
             }
         });
@@ -129,7 +146,9 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
     public void getStatusInformation(DeviceViewHolder holder, Device device) {
 
-//        String[] userNameArray = device.getUser().split(" ");
+        String[] userNameArray = device.getCurrentUser().split(" ");
+
+        User mUser = Firebase.getUser();
 
         if (device.getStatus()) {
 
@@ -138,11 +157,11 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
             holder.supportStatusUser.setText(USED);
 
-          /*  holder.statusUser.setText(userNameArray[0]);
+            holder.statusUser.setText(userNameArray[0]);
             holder.statusUser.setTextColor(Color.BLACK);
 
             holder.lastNameStatusUser.setText(userNameArray[1]);
-            holder.lastNameStatusUser.setTextColor(Color.BLACK);*/
+            holder.lastNameStatusUser.setTextColor(Color.BLACK);
 
             holder.buttonDevice.setVisibility(View.VISIBLE);
             holder.buttonOffDevice.setVisibility(View.GONE);
@@ -154,15 +173,18 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
             holder.supportStatusUser.setText(USING);
 
-           /* holder.statusUser.setText(userNameArray[0]);
+            holder.statusUser.setText(userNameArray[0]);
             holder.statusUser.setTextColor(Color.BLACK);
 
             holder.lastNameStatusUser.setText(userNameArray[1]);
-            holder.lastNameStatusUser.setTextColor(Color.BLACK);*/
-
-            holder.buttonDevice.setVisibility(View.GONE);
-            holder.buttonOffDevice.setVisibility(View.VISIBLE);
-
+            holder.lastNameStatusUser.setTextColor(Color.BLACK);
+            if (mUser.getName().equals(device.getCurrentUser())) {
+                holder.buttonDevice.setVisibility(View.GONE);
+                holder.buttonOffDevice.setVisibility(View.VISIBLE);
+            }else{
+                holder.buttonDevice.setVisibility(View.GONE);
+                holder.buttonOffDevice.setVisibility(View.GONE);
+            }
         }
 
     }
@@ -172,14 +194,99 @@ public class DeviceAdapter extends RecyclerView.Adapter {
     }
 
     private void updateDevice(Device device) {
-        mDatabase = Firebase.getDatabase();
-
         mDatabase.child("devices").push();
+        User mUser = Firebase.getUser();
+        device.setCurrentUserID(mUser.getId());
+        if (mUser.getName() != null) {
+            device.setCurrentUser(mUser.getName());
+        } else {
+            device.setCurrentUserID(mUser.getEmail());
+        }
         Map<String, Object> deviceValue = device.toMap();
-
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/devices/" + device.getId() + "/", deviceValue);
 
         mDatabase.updateChildren(childUpdates);
+    }
+
+    private void startUsage(Device device) {
+        Date data = new Date();
+        Uso usage = new Uso(Firebase.getUser().getEmail(), device.getModel(), device.getId(), data.toString(), false);
+        mDatabase.child(DeviceExtras.TAG_USAGES).child(data.toString()).setValue(usage);
+    }
+
+    private void finishUse(Device device) {
+        Date data = new Date();
+        mutexAdd.lock();
+        for (Uso usage : usages) {
+            if (!usage.getReturned() && usage.getDeviceId().equals(device.getId())) {
+                usage.setFim(data.toString());
+                usage.isReturned();
+                Map<String, Object> usageValue = usage.toMap();
+                Map<String, Object> childUpdates = new HashMap<>();
+                childUpdates.put("/usos/" + usage.getInicio() + "/", usageValue);
+                Log.e("teste", "finishUse");
+                mDatabase.updateChildren(childUpdates);
+            }
+        }
+        mutexAdd.unlock();
+
+    }
+
+    public void updateUsageList(Uso usage) {
+        int fim = usages.size();
+        mutexInterator.lock();
+        for (int i = 0; i < fim; ++i) {
+            Uso mUsage = usages.get(i);
+            if (mUsage.getInicio() == usage.getInicio()) {
+                usages.remove(usages.get(i));
+                usages.add(usage);
+            }
+        }
+        mutexInterator.unlock();
+
+    }
+
+    public void loadUsages() {
+        mDatabase.child(DeviceExtras.TAG_USAGES).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.exists()) {
+                    Uso usageAdd = dataSnapshot.getValue(Uso.class);
+                    mutexAdd.lock();
+                    usages.add(usageAdd);
+                    mutexAdd.unlock();
+                    Log.e("teste", "addU");
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.exists()) {
+                    Uso usage = dataSnapshot.getValue(Uso.class);
+                    mutexAdd.lock();
+                    updateUsageList(usage);
+                    Log.e("teste", "changedU");
+                    mutexAdd.unlock();
+
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }
