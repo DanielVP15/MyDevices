@@ -57,12 +57,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
 
         mContext = this;
         activity = (Activity) mContext;
+
 
         initFirebase();
         init();

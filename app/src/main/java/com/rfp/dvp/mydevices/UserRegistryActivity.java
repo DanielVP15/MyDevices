@@ -2,6 +2,7 @@ package com.rfp.dvp.mydevices;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,8 @@ public class UserRegistryActivity extends AppCompatActivity implements View.OnCl
     private EditText userFirstName;
     private EditText userSecondName;
 
+    private TextView login;
+
     private Button registryButton;
 
     private FirebaseAuth mAuth;
@@ -51,8 +54,10 @@ public class UserRegistryActivity extends AppCompatActivity implements View.OnCl
             getSupportActionBar().hide();
         }
 
+
         mContext = this;
         activity = (Activity) mContext;
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -66,6 +71,10 @@ public class UserRegistryActivity extends AppCompatActivity implements View.OnCl
         password = (EditText) findViewById(R.id.input_password);
         userFirstName = (EditText) findViewById(R.id.input_first_name);
         userSecondName = (EditText) findViewById(R.id.input_second_name);
+
+        login = (TextView) findViewById(R.id.link_login);
+        login.setOnClickListener(this);
+
 
         registryButton = (Button) findViewById(R.id.btn_signup);
         registryButton.setOnClickListener(this);
@@ -166,7 +175,17 @@ public class UserRegistryActivity extends AppCompatActivity implements View.OnCl
                 ConectionUtils.hideSoftKeyboard(activity);
                 initFirebase();
                 break;
+            case R.id.link_login:
+                callLoginActivity();
+                break;
         }
 
     }
+
+    public void callLoginActivity(){
+        Intent it = new Intent(this, LoginActivity.class);
+        it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(it);
+    }
+
 }
