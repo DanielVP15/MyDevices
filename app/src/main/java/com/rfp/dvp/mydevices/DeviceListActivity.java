@@ -40,6 +40,8 @@ public class DeviceListActivity extends AppCompatActivity {
     private AlertDialog alt;
     private boolean isAlertCreate;
 
+    private int contDeviceListSize;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +67,8 @@ public class DeviceListActivity extends AppCompatActivity {
             createAlertDialog();
         }
         isLoaded = false;
+
+        contDeviceListSize = 0;
 
         initRecycleView();
     }
@@ -108,12 +112,13 @@ public class DeviceListActivity extends AppCompatActivity {
         mDatabase.child(DeviceExtras.TAG_DEVICES).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.exists() &&  deviceList.size() < 4) {
+                if (dataSnapshot.exists() &&  deviceList.size() <= contDeviceListSize) {
                     Device device = dataSnapshot.getValue(Device.class);
                     if (device != null) {
                         Log.e("teste", "add");
                         device.setId(dataSnapshot.getKey());
                         deviceList.add(device);
+                        contDeviceListSize++;
                     }
 
                     mAdapter.notifyDataSetChanged();

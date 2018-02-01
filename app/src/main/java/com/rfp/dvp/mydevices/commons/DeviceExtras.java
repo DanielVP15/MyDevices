@@ -10,6 +10,7 @@ public class DeviceExtras {
     public static final String TAG_K4 = "LG K4";
     public static final String TAG_G1 = "Motorola G1";
     public static final String TAG_XA = "Sony Xperia XA";
+    public static final String TAG_S3_MINI = "S3 Mini";
 
     public static final String TAG_DEVICES = "devices";
     public static final String TAG_USERS = "users";

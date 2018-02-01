@@ -76,6 +76,9 @@ public class DeviceInformationActivity extends AppCompatActivity {
             case DeviceExtras.TAG_XA:
                 imageView.setImageResource(R.drawable.xa);
                 break;
+            case DeviceExtras.TAG_S3_MINI:
+                imageView.setImageResource(R.drawable.s3mini);
+                break;
         }
     }
 

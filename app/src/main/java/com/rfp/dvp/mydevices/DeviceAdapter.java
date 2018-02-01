@@ -86,6 +86,9 @@ public class DeviceAdapter extends RecyclerView.Adapter {
             case DeviceExtras.TAG_XA:
                 holder.image.setImageResource(R.drawable.xa);
                 break;
+            case DeviceExtras.TAG_S3_MINI:
+                holder.image.setImageResource(R.drawable.s3mini);
+                break;
         }
 
         getStatusInformation(holder, device);

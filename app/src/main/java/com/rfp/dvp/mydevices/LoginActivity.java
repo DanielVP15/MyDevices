@@ -112,6 +112,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mLogin.setOnClickListener(this);
         mRegistry.setOnClickListener(this);
 
+        mAuth.getInstance().signOut();
+
     }
 
     private void signIn() {
