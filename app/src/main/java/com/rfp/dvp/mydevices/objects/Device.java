@@ -5,7 +5,10 @@ import android.os.Parcelable;
 
 import com.google.firebase.database.Exclude;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,7 +21,7 @@ public class Device implements Parcelable {
     private String id;
     private boolean status;
     private String currentUser;
-    private String currentUserID;
+    private List<Uso> lastUsages = new ArrayList<Uso>();
 
     public Device(){
 
@@ -38,18 +41,20 @@ public class Device implements Parcelable {
         return id;
     }
 
-    public boolean getStatus() { return status;   }
+    public boolean getStatus() {
+        return status;
+    }
 
 
     public void setModel(String model) {
         this.model = model;
     }
 
-    public void setId(String id){
+    public void setId(String id) {
         this.id = id;
     }
 
-    public void setStatus(boolean status){
+    public void setStatus(boolean status) {
         this.status = status;
     }
 
@@ -61,12 +66,12 @@ public class Device implements Parcelable {
         this.currentUser = currentUser;
     }
 
-    public String getCurrentUserID() {
-        return currentUserID;
+    public List<Uso> getLastUsages() {
+        return lastUsages;
     }
 
-    public void setCurrentUserID(String currentUserID) {
-        this.currentUserID = currentUserID;
+    public void setLastUsages(List<Uso> lastUsages) {
+        this.lastUsages = lastUsages;
     }
 
     public static final Creator<Device> CREATOR = new Creator<Device>() {
@@ -84,7 +89,7 @@ public class Device implements Parcelable {
     protected Device(Parcel in) {
         model = in.readString();
         id = in.readString();
-        status  = (in.readInt() == 0) ? false : true;
+        status = (in.readInt() == 0) ? false : true;
 
     }
 
@@ -105,8 +110,21 @@ public class Device implements Parcelable {
         HashMap<String, Object> result = new HashMap<>();
         result.put("model", model);
         result.put("currentUser", currentUser);
-        result.put("currentUserID", currentUserID);
         result.put("status", status);
+        result.put("lastUsages",lastUsages);
         return result;
     }
+
+    public void add(Uso usage){
+        if(lastUsages == null){
+            lastUsages = new LinkedList<Uso>();
+        }
+        if(lastUsages.size() == 10){
+            lastUsages.remove(1);
+        }
+        lastUsages.add(usage);
+    }
+
+
+
 }

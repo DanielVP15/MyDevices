@@ -98,7 +98,6 @@ public class DeviceAdapter extends RecyclerView.Adapter {
             public void onClick(View v) {
                 final int position = holder.getAdapterPosition();
                 device.setStatus(false);
-                updateDevice(device);
                 startUsage(device);
                 DeviceAdapter.this.notifyItemChanged(position);
             }
@@ -109,7 +108,6 @@ public class DeviceAdapter extends RecyclerView.Adapter {
             public void onClick(View v) {
                 final int position = holder.getAdapterPosition();
                 device.setStatus(true);
-                updateDevice(device);
                 finishUse(device);
                 DeviceAdapter.this.notifyItemChanged(position);
             }
@@ -181,7 +179,7 @@ public class DeviceAdapter extends RecyclerView.Adapter {
             if (mUser.getName().equals(device.getCurrentUser())) {
                 holder.buttonDevice.setVisibility(View.GONE);
                 holder.buttonOffDevice.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 holder.buttonDevice.setVisibility(View.GONE);
                 holder.buttonOffDevice.setVisibility(View.GONE);
             }
@@ -196,12 +194,7 @@ public class DeviceAdapter extends RecyclerView.Adapter {
     private void updateDevice(Device device) {
         mDatabase.child("devices").push();
         User mUser = Firebase.getUser();
-        device.setCurrentUserID(mUser.getId());
-        if (mUser.getName() != null) {
-            device.setCurrentUser(mUser.getName());
-        } else {
-            device.setCurrentUserID(mUser.getEmail());
-        }
+        device.setCurrentUser(mUser.getName());
         Map<String, Object> deviceValue = device.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/devices/" + device.getId() + "/", deviceValue);
@@ -212,6 +205,7 @@ public class DeviceAdapter extends RecyclerView.Adapter {
     private void startUsage(Device device) {
         Date data = new Date();
         Uso usage = new Uso(Firebase.getUser().getEmail(), device.getModel(), device.getId(), data.toString(), false);
+        updateDevice(device);
         mDatabase.child(DeviceExtras.TAG_USAGES).child(data.toString()).setValue(usage);
     }
 
@@ -222,6 +216,8 @@ public class DeviceAdapter extends RecyclerView.Adapter {
             if (!usage.getReturned() && usage.getDeviceId().equals(device.getId())) {
                 usage.setFim(data.toString());
                 usage.isReturned();
+                device.add(usage);
+                updateDevice(device);
                 Map<String, Object> usageValue = usage.toMap();
                 Map<String, Object> childUpdates = new HashMap<>();
                 childUpdates.put("/usos/" + usage.getInicio() + "/", usageValue);
