@@ -11,7 +11,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rfp.dvp.mydevices.objects.Device;
 import com.rfp.dvp.mydevices.objects.User;
-import com.rfp.dvp.mydevices.objects.Uso;
 
 import java.util.Date;
 import java.util.HashMap;

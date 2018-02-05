@@ -1,5 +1,7 @@
 package com.rfp.dvp.mydevices;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,12 +22,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rfp.dvp.mydevices.commons.Firebase;
+import com.rfp.dvp.mydevices.utils.ConectionUtils;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -37,16 +42,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public EditText mEmail;
     public EditText mPassword;
     public Button mLogin;
+    public TextView mRegistry;
 
     private AlertDialog.Builder alert;
     private AlertDialog alt;
     private boolean isAlertCreate;
+
+    private Context mContext;
+    private Activity activity;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
+        mContext = this;
+        activity = (Activity) mContext;
+
+
         initFirebase();
         init();
     }
@@ -85,12 +104,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-
     private void init() {
-        mEmail = (EditText) findViewById(R.id.login_email_edit_text);
-        mPassword = (EditText) findViewById(R.id.login_password_edit_text);
-        mLogin = (Button) findViewById(R.id.login_button);
+        mEmail = (EditText) findViewById(R.id.input_email);
+        mPassword = (EditText) findViewById(R.id.input_password);
+        mLogin = (Button) findViewById(R.id.btn_login);
+        mRegistry = (TextView) findViewById(R.id.link_signup);
         mLogin.setOnClickListener(this);
+        mRegistry.setOnClickListener(this);
+
+        mAuth.getInstance().signOut();
+
     }
 
     private void signIn() {
@@ -142,8 +165,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });*/
 
+
+        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        /*UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName("Rodrigo Felippo").build();
+
+        mAuth.getCurrentUser().updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "User profile updated.");
+                        }
+                    }
+                });*/
+
+
         Firebase.initFirebase();
         Intent it = new Intent(this, DeviceListActivity.class);
+        startActivity(it);
+    }
+
+    private void callUserRegistryActivity() {
+        Intent it = new Intent(this, UserRegistryActivity.class);
         startActivity(it);
     }
 
@@ -160,8 +204,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.login_button:
+            case R.id.btn_login:
+                ConectionUtils.hideSoftKeyboard(activity);
                 signIn();
+                break;
+            case R.id.link_signup:
+                ConectionUtils.hideSoftKeyboard(activity);
+                callUserRegistryActivity();
+                break;
         }
     }
 

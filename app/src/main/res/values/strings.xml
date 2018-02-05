@@ -3,8 +3,9 @@
     <string name="model">Modelo</string>
     <string name="get">Usar</string>
     <string name="email">Email</string>
-    <string name="Password">Senha</string>
+    <string name="password">Senha</string>
     <string name="login">Entrar</string>
+    <string name="registry">Cadastrar</string>
     <string name="put_name">Digite o seu nome</string>
     <string name="continue_button">Continuar</string>
 
@@ -19,7 +20,7 @@
     <string name="available">Dísponível</string>
     <string name="unavailable">Indisponível</string>
 
-    <string name="used_text">Em uso:</string>
+    <string name="used_text">Ultimo uso:</string>
     <string name="using_text">Em uso:</string>
 
     <string name="support_model_text">Model:</string>
@@ -28,6 +29,8 @@
     <string name="support_user_text">User:</string>
 
     <string name="processing_text">Processando...</string>
+    <string name="second_name">Sobrenome</string>
+    <string name="name">Nome</string>
 
 
 </resources>

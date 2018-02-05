@@ -89,7 +89,8 @@ public class Device implements Parcelable {
     protected Device(Parcel in) {
         model = in.readString();
         id = in.readString();
-        status = (in.readInt() == 0) ? false : true;
+        currentUser = in.readString();
+        status  = (in.readInt() == 0) ? false : true;
 
     }
 
@@ -102,6 +103,7 @@ public class Device implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(model);
         parcel.writeString(id);
+        parcel.writeString(currentUser);
         parcel.writeInt(status ? 1 : 0);
     }
 

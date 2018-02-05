@@ -18,16 +18,14 @@ import com.rfp.dvp.mydevices.commons.DeviceExtras;
 import com.rfp.dvp.mydevices.commons.Firebase;
 import com.rfp.dvp.mydevices.objects.Device;
 import com.rfp.dvp.mydevices.objects.User;
-import com.rfp.dvp.mydevices.objects.Uso;
+import com.rfp.dvp.mydevices.objects.Use;
 import com.rfp.dvp.mydevices.utils.ItemClickListener;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -38,7 +36,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class DeviceAdapter extends RecyclerView.Adapter {
 
     private List<Device> devices;
-    private List<Uso> usages;
+    private List<Use> usages;
     private Context context;
     private DatabaseReference mDatabase;
     private final Lock mutexAdd = new ReentrantLock();
@@ -46,8 +44,8 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
     public static final String AVAILABLE = "Disponível";
     public static final String UNAVAILABLE = "Indisponível";
-    public static final String USED = "Ultimo uso: ";
-    public static final String USING = "Em uso: ";
+    public static final String USED = "Ultimo uso:";
+    public static final String USING = "Em uso:";
 
     public DeviceAdapter(List<Device> devices, Context context) {
         this.devices = devices;
@@ -87,6 +85,9 @@ public class DeviceAdapter extends RecyclerView.Adapter {
                 break;
             case DeviceExtras.TAG_XA:
                 holder.image.setImageResource(R.drawable.xa);
+                break;
+            case DeviceExtras.TAG_S3_MINI:
+                holder.image.setImageResource(R.drawable.s3mini);
                 break;
         }
 
