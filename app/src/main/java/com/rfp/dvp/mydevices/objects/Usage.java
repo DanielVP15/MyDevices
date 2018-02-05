@@ -13,7 +13,7 @@ import java.util.Map;
  * Created by dvpires on 29/01/2018.
  */
 
-public class Usage {
+public class Usage implements Parcelable {
 
 
     private String user;
@@ -33,6 +33,42 @@ public class Usage {
         this.start = start;
         this.returned = returned;
     }
+
+    protected Usage(Parcel in) {
+        user = in.readString();
+        deviceModel = in.readString();
+        deviceId = in.readString();
+        returned = in.readByte() != 0;
+        start = in.readString();
+        end = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(user);
+        dest.writeString(deviceModel);
+        dest.writeString(deviceId);
+        dest.writeByte((byte) (returned ? 1 : 0));
+        dest.writeString(start);
+        dest.writeString(end);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Usage> CREATOR = new Creator<Usage>() {
+        @Override
+        public Usage createFromParcel(Parcel in) {
+            return new Usage(in);
+        }
+
+        @Override
+        public Usage[] newArray(int size) {
+            return new Usage[size];
+        }
+    };
 
     @Exclude
     public Map<String, Object> toMap() {

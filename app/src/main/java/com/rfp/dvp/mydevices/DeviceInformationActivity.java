@@ -2,11 +2,16 @@ package com.rfp.dvp.mydevices;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rfp.dvp.mydevices.commons.DeviceExtras;
 import com.rfp.dvp.mydevices.objects.Device;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DeviceInformationActivity extends AppCompatActivity {
 
@@ -18,6 +23,11 @@ public class DeviceInformationActivity extends AppCompatActivity {
     private TextView statusInformation;
     private TextView idInformation;
     private ImageView imageView;
+
+    private RecyclerView recyclerView;
+    private DeviceAdapterListLastUsages mAdapter;
+    RecyclerView.LayoutManager layout;
+    List<Device> deviceList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +53,23 @@ public class DeviceInformationActivity extends AppCompatActivity {
 
         getDeviceInformation();
 
+
+
+
     }
+
+    private void createListUsages(Device device) {
+        recyclerView = (RecyclerView) findViewById(R.id.last_usages_list_recycler);
+        //deviceList.add(device);
+
+        mAdapter = new DeviceAdapterListLastUsages(device.getLastUsages(), this);
+        recyclerView.setAdapter(mAdapter);
+
+        layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layout);
+    }
+
+
 
     private void getDeviceInformation(){
 
@@ -51,6 +77,8 @@ public class DeviceInformationActivity extends AppCompatActivity {
 
         modelInformation.setText(device.getModel());
         idInformation.setText(device.getId());
+
+        createListUsages(device);
 
         if (device.getStatus()){
             statusInformation.setText(getResources().getString(R.string.available));
@@ -81,6 +109,7 @@ public class DeviceInformationActivity extends AppCompatActivity {
                 break;
         }
     }
+
 
 
 
