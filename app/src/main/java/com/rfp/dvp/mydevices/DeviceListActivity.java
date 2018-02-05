@@ -1,6 +1,7 @@
 package com.rfp.dvp.mydevices;
 
 
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,19 +10,15 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.rfp.dvp.mydevices.commons.DeviceExtras;
 import com.rfp.dvp.mydevices.commons.Firebase;
 import com.rfp.dvp.mydevices.objects.Device;
-import com.rfp.dvp.mydevices.objects.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +74,6 @@ public class DeviceListActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         mAdapter = new DeviceAdapter(deviceList, this);
         recyclerView.setAdapter(mAdapter);
-        //recyclerView.setHasFixedSize(true);
         layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layout);
 
@@ -91,8 +87,6 @@ public class DeviceListActivity extends AppCompatActivity {
             LayoutInflater inflater = getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.custom_alertdialog_layout, null);
             alert.setView(dialogView);
-
-
             alert.setCancelable(false);
             alt = alert.create();
             alt.show();
@@ -112,7 +106,7 @@ public class DeviceListActivity extends AppCompatActivity {
         mDatabase.child(DeviceExtras.TAG_DEVICES).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.exists() &&  deviceList.size() <= contDeviceListSize) {
+                if (dataSnapshot.exists() && deviceList.size() <= contDeviceListSize) {
                     Device device = dataSnapshot.getValue(Device.class);
                     if (device != null) {
                         Log.e("teste", "add");
@@ -120,7 +114,6 @@ public class DeviceListActivity extends AppCompatActivity {
                         deviceList.add(device);
                         contDeviceListSize++;
                     }
-
                     mAdapter.notifyDataSetChanged();
                     dismissProgressDialog();
                 }
@@ -128,14 +121,12 @@ public class DeviceListActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
                 Device device = dataSnapshot.getValue(Device.class);
                 if (device != null) {
                     device.setId(dataSnapshot.getKey());
                     Log.e("teste", "changed");
                 }
                 mAdapter.notifyDataSetChanged();
-
             }
 
             @Override
@@ -164,6 +155,20 @@ public class DeviceListActivity extends AppCompatActivity {
         if (!isLoaded) {
             loadDevices();
         }
+
+    }
+
+    public void callLoginActivity() {
+        Intent it = new Intent(this, LoginActivity.class);
+        it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(it);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Firebase.logout();
+        callLoginActivity();
 
     }
 }

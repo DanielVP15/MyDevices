@@ -1,20 +1,15 @@
 package com.rfp.dvp.mydevices.commons;
 
-import android.util.Log;
+
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.rfp.dvp.mydevices.objects.Device;
 import com.rfp.dvp.mydevices.objects.User;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+
 
 /**
  * Created by dvpires on 29/01/2018.
@@ -24,6 +19,7 @@ public class Firebase {
 
     private static DatabaseReference mDatabase;
     private static User mUser;
+    private static FirebaseAuth mAuth;
 
 
     public static void initFirebase() {
@@ -46,4 +42,12 @@ public class Firebase {
     public static User getUser() {
         return mUser;
     }
+
+    public static void setAuth(FirebaseAuth auth){
+        mAuth = auth;
+    }
+    public static void logout(){
+        mAuth.signOut();
+    }
+
 }

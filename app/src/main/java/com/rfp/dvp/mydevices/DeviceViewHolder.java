@@ -22,16 +22,12 @@ public class DeviceViewHolder extends RecyclerView.ViewHolder implements View.On
     final ImageView image;
     final Button buttonDevice;
     final Button buttonOffDevice;
-    //final TextView id;
-    //final TextView active;
-    //final TextView user;
 
     private ItemClickListener itemClickListener;
 
     public DeviceViewHolder(View itemView) {
         super(itemView);
 
-        //nome = (TextView) itemView.findViewById(R.id.item_livro_nome);
         model = (TextView) itemView.findViewById(R.id.txt_model);
         status = (TextView) itemView.findViewById(R.id.txt_status);
         statusUser = (TextView) itemView.findViewById(R.id.txt_status_user);
