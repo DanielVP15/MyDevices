@@ -18,7 +18,7 @@ import com.rfp.dvp.mydevices.commons.DeviceExtras;
 import com.rfp.dvp.mydevices.commons.Firebase;
 import com.rfp.dvp.mydevices.objects.Device;
 import com.rfp.dvp.mydevices.objects.User;
-import com.rfp.dvp.mydevices.objects.Use;
+import com.rfp.dvp.mydevices.objects.Usage;
 import com.rfp.dvp.mydevices.utils.ItemClickListener;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class DeviceAdapter extends RecyclerView.Adapter {
 
     private List<Device> devices;
-    private List<Use> usages;
+    private List<Usage> usages;
     private Context context;
     private DatabaseReference mDatabase;
     private final Lock mutexAdd = new ReentrantLock();
@@ -205,7 +205,7 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
     private void startUsage(Device device) {
         Date data = new Date();
-        Uso usage = new Uso(Firebase.getUser().getEmail(), device.getModel(), device.getId(), data.toString(), false);
+        Usage usage = new Usage(Firebase.getUser().getEmail(), device.getModel(), device.getId(), data.toString(), false);
         updateDevice(device);
         mDatabase.child(DeviceExtras.TAG_USAGES).child(data.toString()).setValue(usage);
     }
@@ -213,15 +213,15 @@ public class DeviceAdapter extends RecyclerView.Adapter {
     private void finishUse(Device device) {
         Date data = new Date();
         mutexAdd.lock();
-        for (Uso usage : usages) {
+        for (Usage usage : usages) {
             if (!usage.getReturned() && usage.getDeviceId().equals(device.getId())) {
-                usage.setFim(data.toString());
+                usage.setEnd(data.toString());
                 usage.isReturned();
                 device.add(usage);
                 updateDevice(device);
                 Map<String, Object> usageValue = usage.toMap();
                 Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put("/usos/" + usage.getInicio() + "/", usageValue);
+                childUpdates.put("/usos/" + usage.getStart() + "/", usageValue);
                 Log.e("teste", "finishUse");
                 mDatabase.updateChildren(childUpdates);
             }
@@ -230,12 +230,12 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
     }
 
-    public void updateUsageList(Uso usage) {
+    public void updateUsageList(Usage usage) {
         int fim = usages.size();
         mutexInterator.lock();
         for (int i = 0; i < fim; ++i) {
-            Uso mUsage = usages.get(i);
-            if (mUsage.getInicio() == usage.getInicio()) {
+            Usage mUsage = usages.get(i);
+            if (mUsage.getStart() == usage.getEnd()) {
                 usages.remove(usages.get(i));
                 usages.add(usage);
             }
@@ -249,7 +249,7 @@ public class DeviceAdapter extends RecyclerView.Adapter {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.exists()) {
-                    Uso usageAdd = dataSnapshot.getValue(Uso.class);
+                    Usage usageAdd = dataSnapshot.getValue(Usage.class);
                     mutexAdd.lock();
                     usages.add(usageAdd);
                     mutexAdd.unlock();
@@ -260,7 +260,7 @@ public class DeviceAdapter extends RecyclerView.Adapter {
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.exists()) {
-                    Uso usage = dataSnapshot.getValue(Uso.class);
+                    Usage usage = dataSnapshot.getValue(Usage.class);
                     mutexAdd.lock();
                     updateUsageList(usage);
                     Log.e("teste", "changedU");

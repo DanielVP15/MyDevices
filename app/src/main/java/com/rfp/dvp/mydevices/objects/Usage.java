@@ -13,7 +13,7 @@ import java.util.Map;
  * Created by dvpires on 29/01/2018.
  */
 
-public class Use {
+public class Usage {
 
 
     private String user;
@@ -23,10 +23,10 @@ public class Use {
     private String start;
     private String end;
 
-    public Use() {
+    public Usage() {
     }
 
-    public Use(String user, String deviceModel, String deviceId, String start, boolean returned) {
+    public Usage(String user, String deviceModel, String deviceId, String start, boolean returned) {
         this.user = user;
         this.deviceModel = deviceModel;
         this.deviceId = deviceId;

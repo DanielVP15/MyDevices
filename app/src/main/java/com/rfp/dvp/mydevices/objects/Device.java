@@ -21,7 +21,7 @@ public class Device implements Parcelable {
     private String id;
     private boolean status;
     private String currentUser;
-    private List<Uso> lastUsages = new ArrayList<Uso>();
+    private List<Usage> lastUsages = new ArrayList<Usage>();
 
     public Device(){
 
@@ -66,11 +66,11 @@ public class Device implements Parcelable {
         this.currentUser = currentUser;
     }
 
-    public List<Uso> getLastUsages() {
+    public List<Usage> getLastUsages() {
         return lastUsages;
     }
 
-    public void setLastUsages(List<Uso> lastUsages) {
+    public void setLastUsages(List<Usage> lastUsages) {
         this.lastUsages = lastUsages;
     }
 
@@ -117,12 +117,12 @@ public class Device implements Parcelable {
         return result;
     }
 
-    public void add(Uso usage){
+    public void add(Usage usage){
         if(lastUsages == null){
-            lastUsages = new LinkedList<Uso>();
+            lastUsages = new LinkedList<Usage>();
         }
         if(lastUsages.size() == 10){
-            lastUsages.remove(1);
+            lastUsages.remove(0);
         }
         lastUsages.add(usage);
     }
