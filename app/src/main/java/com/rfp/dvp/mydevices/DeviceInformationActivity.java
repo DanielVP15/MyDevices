@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,9 +53,6 @@ public class DeviceInformationActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.device_information_image);
 
         getDeviceInformation();
-
-
-
 
     }
 

@@ -203,7 +203,7 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
     private void startUsage(Device device) {
         Date data = new Date();
-        Usage usage = new Usage(Firebase.getUser().getEmail(), device.getModel(), device.getId(), data.toString(), false);
+        Usage usage = new Usage(Firebase.getUser().getName(),Firebase.getUser().getEmail(), device.getModel(), device.getId(), data.toString(), false);
         updateDevice(device);
         mDatabase.child(DeviceExtras.TAG_USAGES).child(data.toString()).setValue(usage);
     }

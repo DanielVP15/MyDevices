@@ -90,7 +90,7 @@ public class Device implements Parcelable {
         model = in.readString();
         id = in.readString();
         currentUser = in.readString();
-        in.readTypedList(lastUsages, Usage.CREATOR);
+        in.readList(this.lastUsages, Usage.class.getClassLoader());
         status  = (in.readInt() == 0) ? false : true;
 
     }

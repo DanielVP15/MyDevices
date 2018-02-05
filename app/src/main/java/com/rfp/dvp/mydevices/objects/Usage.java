@@ -15,6 +15,7 @@ import java.util.Map;
 public class Usage implements Parcelable {
 
 
+    private String userName;
     private String user;
     private String deviceModel;
     private String deviceId;
@@ -22,10 +23,12 @@ public class Usage implements Parcelable {
     private String start;
     private String end;
 
+
     public Usage() {
     }
 
-    public Usage(String user, String deviceModel, String deviceId, String start, boolean returned) {
+    public Usage(String userName, String user, String deviceModel, String deviceId, String start, boolean returned) {
+        this.userName = userName;
         this.user = user;
         this.deviceModel = deviceModel;
         this.deviceId = deviceId;
@@ -34,6 +37,7 @@ public class Usage implements Parcelable {
     }
 
     protected Usage(Parcel in) {
+        userName = in.readString();
         user = in.readString();
         deviceModel = in.readString();
         deviceId = in.readString();
@@ -44,6 +48,7 @@ public class Usage implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(userName);
         dest.writeString(user);
         dest.writeString(deviceModel);
         dest.writeString(deviceId);
@@ -72,6 +77,7 @@ public class Usage implements Parcelable {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
+        result.put("Name", userName);
         result.put("email", user);
         result.put("modelo", deviceModel);
         result.put("ID", deviceId);
@@ -127,6 +133,14 @@ public class Usage implements Parcelable {
 
     public void isReturned() {
         returned = true;
+    }
+
+    public void setUserName(String userName){
+        this.userName = userName;
+    }
+
+    public String getUserName(){
+        return userName;
     }
 
 

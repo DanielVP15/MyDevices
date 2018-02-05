@@ -26,7 +26,12 @@
                 android:text="rodrigo"/>
 
             <TextView
-                android:id="@+id/time_user"
+                android:id="@+id/start_time_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1000"/>
+            <TextView
+                android:id="@+id/end_time_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1000"/>

@@ -41,8 +41,9 @@ public class DeviceAdapterListLastUsages extends RecyclerView.Adapter {
         final DeviceViewHolderListLastUsages holderListLastUsages = (DeviceViewHolderListLastUsages) viewHolder;
 
         Usage usage = usages.get(position);
-        holderListLastUsages.userName.setText(usage.getDeviceModel());
-        holderListLastUsages.userTime.setText(usage.getDeviceId());
+        holderListLastUsages.userName.setText(usage.getUserName());
+        holderListLastUsages.userStartTime.setText(usage.getStart());
+        holderListLastUsages.userEndTime.setText(usage.getEnd());
 
 
     }

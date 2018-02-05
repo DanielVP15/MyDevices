@@ -11,13 +11,15 @@ import android.widget.TextView;
 public class DeviceViewHolderListLastUsages extends RecyclerView.ViewHolder {
 
     final TextView userName;
-    final TextView userTime;
+    final TextView userStartTime;
+    final TextView userEndTime;
 
 
     public DeviceViewHolderListLastUsages(View itemView) {
         super(itemView);
 
         userName = (TextView) itemView.findViewById(R.id.name_user);
-        userTime = (TextView) itemView.findViewById(R.id.time_user);
+        userStartTime = (TextView) itemView.findViewById(R.id.start_time_user);
+        userEndTime = (TextView) itemView.findViewById(R.id.end_time_user);
     }
 }
