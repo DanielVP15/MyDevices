@@ -22,9 +22,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.rfp.dvp.mydevices.commons.Firebase;
 import com.rfp.dvp.mydevices.utils.ConectionUtils;
 
-public class UserRegistryActivity extends AppCompatActivity implements View.OnClickListener{
+public class UserRegistryActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText email;
     private EditText password;
@@ -65,7 +66,7 @@ public class UserRegistryActivity extends AppCompatActivity implements View.OnCl
 
     }
 
-    private void init(){
+    private void init() {
 
         email = (EditText) findViewById(R.id.input_email);
         password = (EditText) findViewById(R.id.input_password);
@@ -85,9 +86,9 @@ public class UserRegistryActivity extends AppCompatActivity implements View.OnCl
         createAlertDialog();
 
         if (!TextUtils.isEmpty(email.getText().toString().trim())
-             && !TextUtils.isEmpty(password.getText().toString().trim())
-             && !TextUtils.isEmpty(userFirstName.getText().toString().trim())
-             && !TextUtils.isEmpty(userSecondName.getText().toString().trim())) {
+                && !TextUtils.isEmpty(password.getText().toString().trim())
+                && !TextUtils.isEmpty(userFirstName.getText().toString().trim())
+                && !TextUtils.isEmpty(userSecondName.getText().toString().trim())) {
 
             mAuth.createUserWithEmailAndPassword(email.getText().toString().trim(), password.getText().toString().trim())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -98,9 +99,7 @@ public class UserRegistryActivity extends AppCompatActivity implements View.OnCl
                                 Log.d("create", "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 updateUI();
-                                dismissProgressDialog();
-                                Toast.makeText(UserRegistryActivity.this, "Usuário cadastrado com sucesso!",
-                                        Toast.LENGTH_SHORT).show();
+                                signIn();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w("create2", "createUserWithEmail:failure", task.getException());
@@ -114,16 +113,17 @@ public class UserRegistryActivity extends AppCompatActivity implements View.OnCl
 
                     });
 
-        }else{
+        } else {
             dismissProgressDialog();
             Toast.makeText(UserRegistryActivity.this, "Todos os campos devem ser preenchidos!",
                     Toast.LENGTH_SHORT).show();
         }
+
     }
 
     private void updateUI() {
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(userFirstName.getText().toString().trim()+" "+userSecondName.getText().toString().trim())
+                .setDisplayName(userFirstName.getText().toString().trim() + " " + userSecondName.getText().toString().trim())
                 .build();
 
         mAuth.getCurrentUser().updateProfile(profileUpdates)
@@ -162,15 +162,12 @@ public class UserRegistryActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        //FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
     }
 
     @Override
     public void onClick(View view) {
 
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_signup:
                 ConectionUtils.hideSoftKeyboard(activity);
                 initFirebase();
@@ -182,10 +179,34 @@ public class UserRegistryActivity extends AppCompatActivity implements View.OnCl
 
     }
 
-    public void callLoginActivity(){
+    public void callLoginActivity() {
         Intent it = new Intent(this, LoginActivity.class);
         it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(it);
+    }
+
+    public void callDeviceListActivity() {
+        Firebase.initFirebase();
+        Intent it = new Intent(this, DeviceListActivity.class);
+        it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(it);
+    }
+
+    private void signIn() {
+
+        mAuth.signInWithEmailAndPassword(email.getText().toString().trim(), password.getText().toString().trim())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (!task.isSuccessful()) {
+                            dismissProgressDialog();
+                        } else {
+                            callDeviceListActivity();
+                        }
+                        dismissProgressDialog();
+                    }
+
+                });
     }
 
 }

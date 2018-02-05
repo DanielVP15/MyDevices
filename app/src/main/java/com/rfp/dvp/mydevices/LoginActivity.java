@@ -31,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.rfp.dvp.mydevices.commons.Firebase;
 import com.rfp.dvp.mydevices.utils.ConectionUtils;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -72,14 +72,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void initFirebase() {
         mAuth = FirebaseAuth.getInstance();
-
+        Firebase.setAuth(mAuth);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    callListDevicesActivity();
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -112,8 +112,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mLogin.setOnClickListener(this);
         mRegistry.setOnClickListener(this);
 
-        mAuth.getInstance().signOut();
-
     }
 
     private void signIn() {
@@ -136,51 +134,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         }
 
                     });
-        }else{
+        } else {
             dismissProgressDialog();
         }
     }
 
     private void callListDevicesActivity() {
         dismissProgressDialog();
-        /*FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("teste");
-
-        myRef.setValue("kiokjhj");
-
-        // Read from the database
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                Log.d(TAG, "Value is: " + value);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });*/
-
-
-        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        /*UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName("Rodrigo Felippo").build();
-
-        mAuth.getCurrentUser().updateProfile(profileUpdates)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "User profile updated.");
-                        }
-                    }
-                });*/
-
-
         Firebase.initFirebase();
         Intent it = new Intent(this, DeviceListActivity.class);
         startActivity(it);
@@ -216,7 +176,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         dismissProgressDialog();
     }

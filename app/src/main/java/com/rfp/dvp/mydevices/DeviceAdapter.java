@@ -149,6 +149,8 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
         User mUser = Firebase.getUser();
 
+
+
         if (device.getStatus()) {
 
             holder.status.setText(AVAILABLE);
@@ -186,10 +188,6 @@ public class DeviceAdapter extends RecyclerView.Adapter {
             }
         }
 
-    }
-
-    private void updateListItem(int position) {
-        notifyItemChanged(position);
     }
 
     private void updateDevice(Device device) {

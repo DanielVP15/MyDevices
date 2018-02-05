@@ -83,6 +83,11 @@ public class DeviceInformationActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
 
 
 
