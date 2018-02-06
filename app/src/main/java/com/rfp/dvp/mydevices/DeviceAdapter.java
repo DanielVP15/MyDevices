@@ -21,7 +21,9 @@ import com.rfp.dvp.mydevices.objects.User;
 import com.rfp.dvp.mydevices.objects.Usage;
 import com.rfp.dvp.mydevices.utils.ItemClickListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -73,22 +75,25 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
         holder.model.setText(device.getModel());
 
-        switch (device.getModel()) {
-            case DeviceExtras.TAG_A5:
-                holder.image.setImageResource(R.drawable.a5);
-                break;
-            case DeviceExtras.TAG_K4:
-                holder.image.setImageResource(R.drawable.k4);
-                break;
-            case DeviceExtras.TAG_G1:
-                holder.image.setImageResource(R.drawable.g1);
-                break;
-            case DeviceExtras.TAG_XA:
-                holder.image.setImageResource(R.drawable.xa);
-                break;
-            case DeviceExtras.TAG_S3_MINI:
-                holder.image.setImageResource(R.drawable.s3mini);
-                break;
+        if(device.getModel() != null){
+            switch (device.getModel()) {
+                case DeviceExtras.TAG_A5:
+                    holder.image.setImageResource(R.drawable.a5);
+                    break;
+                case DeviceExtras.TAG_K4:
+                    holder.image.setImageResource(R.drawable.k4);
+                    break;
+                case DeviceExtras.TAG_G1:
+                    holder.image.setImageResource(R.drawable.g1);
+                    break;
+                case DeviceExtras.TAG_XA:
+                    holder.image.setImageResource(R.drawable.xa);
+                    break;
+                case DeviceExtras.TAG_S3_MINI:
+                    holder.image.setImageResource(R.drawable.s3mini);
+                    break;
+            }
+
         }
 
         getStatusInformation(holder, device);

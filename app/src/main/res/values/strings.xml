@@ -26,11 +26,13 @@
     <string name="support_model_text">Model:</string>
     <string name="support_id_text">ID:</string>
     <string name="support_status_text">Status:</string>
-    <string name="support_user_text">User:</string>
+    <string name="support_user_text">Usuário:</string>
 
     <string name="processing_text">Processando...</string>
     <string name="second_name">Sobrenome</string>
     <string name="name">Nome</string>
+    <string name="start">Inicio:</string>
+    <string name="end">Fim:</string>
 
 
 </resources>
