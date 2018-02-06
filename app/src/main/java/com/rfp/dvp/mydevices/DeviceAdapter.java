@@ -208,23 +208,49 @@ public class DeviceAdapter extends RecyclerView.Adapter {
 
     private void startUsage(Device device) {
         Date data = new Date();
-        Usage usage = new Usage(Firebase.getUser().getName(),Firebase.getUser().getEmail(), device.getModel(), device.getId(), data.toString(), false);
+        Calendar c = Calendar.getInstance();
+        c.setTime(data);
+
+        c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH));
+        c.set(Calendar.MONTH, c.get(Calendar.MONTH));
+        c.set(Calendar.YEAR, c.get(Calendar.YEAR));
+        c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY));
+        c.set(Calendar.MINUTE, c.get(Calendar.MINUTE));
+        c.set(Calendar.SECOND, c.get(Calendar.SECOND));
+
+
+        String startDate = new SimpleDateFormat("HH:mm:ss - dd/MM/yyyy").format(c.getTime());
+        Usage usage = new Usage(Firebase.getUser().getName(),Firebase.getUser().getEmail(), device.getModel(), device.getId(), startDate, false);
         updateDevice(device);
         mDatabase.child(DeviceExtras.TAG_USAGES).child(data.toString()).setValue(usage);
     }
 
     private void finishUse(Device device) {
         Date data = new Date();
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(data);
+
+        c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH));
+        c.set(Calendar.MONTH, c.get(Calendar.MONTH));
+        c.set(Calendar.YEAR, c.get(Calendar.YEAR));
+        c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY));
+        c.set(Calendar.MINUTE, c.get(Calendar.MINUTE));
+        c.set(Calendar.SECOND, c.get(Calendar.SECOND));
+
+
+        String endDate = new SimpleDateFormat("HH:mm:ss - dd/MM/yyyy").format(c.getTime());
+
         mutexAdd.lock();
         for (Usage usage : usages) {
             if (!usage.getReturned() && usage.getDeviceId().equals(device.getId())) {
-                usage.setEnd(data.toString());
+                usage.setEnd(endDate);
                 usage.isReturned();
                 device.add(usage);
                 updateDevice(device);
                 Map<String, Object> usageValue = usage.toMap();
                 Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put("/usos/" + usage.getStart() + "/", usageValue);
+                childUpdates.put("/usos/" + data.toString() + "/", usageValue);
                 Log.e("teste", "finishUse");
                 mDatabase.updateChildren(childUpdates);
             }

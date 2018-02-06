@@ -4,113 +4,149 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:padding="30dp"
     tools:context="com.rfp.dvp.mydevices.DeviceInformationActivity">
 
-
     <LinearLayout
-        android:id="@+id/image_layout"
-        android:layout_width="150dp"
-        android:layout_height="150dp">
-        <ImageView
-            android:id="@+id/device_information_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/model_layout"
-        android:layout_width="wrap_content"
+        android:id="@+id/first_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/image_layout">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/support_model_information_text"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/support_model_text"/>
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            app:cardBackgroundColor="#17c16c"
+            card_view:cardCornerRadius="2dp"
+            card_view:contentPadding="10dp">
 
-        <TextView
-            android:id="@+id/model_information_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="5dp"/>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:elevation="5dp"
+                android:orientation="vertical">
 
-    </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/image_layout"
+                    android:layout_width="150dp"
+                    android:layout_gravity="center"
+                    android:layout_height="150dp">
+                    <ImageView
+                        android:id="@+id/device_information_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/id_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/model_layout">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingTop="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/support_id_information_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/support_id_text"/>
+                    <LinearLayout
+                        android:id="@+id/model_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/image_layout"
+                        android:gravity="right"
+                        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/id_information_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"/>
+                        <TextView
+                            android:id="@+id/support_model_information_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/support_model_text"/>
+                        <TextView
+                            android:id="@+id/support_id_information_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/support_id_text"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/status_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/id_layout">
-
-        <TextView
-            android:id="@+id/support_status_information_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/support_status_text"/>
-
-        <TextView
-            android:id="@+id/status_information_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="5dp"/>
-
-    </LinearLayout>
+                        <TextView
+                            android:id="@+id/support_status_information_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/support_status_text"/>
+                        <TextView
+                            android:id="@+id/support_user_information_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/support_user_text"/>
 
 
-    <LinearLayout
-        android:id="@+id/user_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/status_layout">
 
-        <TextView
-            android:id="@+id/support_user_information_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/support_user_text"/>
+                    </LinearLayout>
 
-        <TextView
-            android:id="@+id/user_information_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="5dp"/>
+                    <LinearLayout
+                        android:id="@+id/id_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:paddingLeft="5dp"
+                        android:layout_below="@+id/model_layout">
 
+                        <TextView
+                            android:id="@+id/model_information_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/id_information_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/status_information_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/user_information_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/last_usages_list_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/user_layout">
+        android:orientation="vertical"
+        android:layout_below="@+id/first_layout">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            app:cardBackgroundColor="#3c8e65"
+            card_view:cardCornerRadius="2dp"
+            card_view:contentPadding="10dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="Lista de últimos usos"/>
+        </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/last_usages_list_recycler"
             android:scrollbars="vertical"
             android:layout_width="match_parent"
+            android:paddingTop="2dp"
             android:layout_height="match_parent" />
     </LinearLayout>
 
