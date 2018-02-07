@@ -139,7 +139,7 @@
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                android:text="Lista de últimos usos"/>
+                android:text="@string/list_last_usages_text"/>
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.RecyclerView
