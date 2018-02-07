@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="5dp"
-            app:cardBackgroundColor="#17c16c"
+            app:cardBackgroundColor="@color/greenLight"
             card_view:cardCornerRadius="2dp"
             card_view:contentPadding="10dp">
 
@@ -132,7 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="5dp"
-            app:cardBackgroundColor="#3c8e65"
+            app:cardBackgroundColor="@color/greenDark"
             card_view:cardCornerRadius="2dp"
             card_view:contentPadding="10dp">
             <TextView
